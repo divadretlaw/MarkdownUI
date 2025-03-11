@@ -12,6 +12,8 @@ public struct MarkdownView: View {
     let document: Document
     let spacing: CGFloat?
     
+    @State private var imageHandler = ImageHandler()
+    
     init(_ markdown: String, spacing: CGFloat? = nil) {
         self.document = Document(parsing: markdown)
         print(self.document.debugDescription())
@@ -19,11 +21,12 @@ public struct MarkdownView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: spacing) {
+        LazyVStack(alignment: .leading, spacing: spacing) {
             MarkupView(document)
         }
         .font(.body)
         .environment(\.markdownLineSpacing, spacing)
+        .environment(imageHandler)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Nuke
 
 extension Text {
     init(markdown text: String) {
@@ -24,6 +25,18 @@ extension Text {
         } catch {
             self = Text(verbatim: text)
         }
+    }
+    
+    init(image: PlatformImage?) {
+        guard let image else {
+            self = Text("\(Image(systemName: "photo.badge.arrow.down"))")
+            return
+        }
+        #if !os(macOS)
+        self = Text("\(Image(uiImage: image))")
+        #else
+        self = Text("\(Image(nsImage: image))")
+        #endif
     }
 }
 

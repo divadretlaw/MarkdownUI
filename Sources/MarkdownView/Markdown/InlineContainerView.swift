@@ -11,10 +11,9 @@ import Nuke
 
 struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
+    @Environment(ImageHandler.self) var imageHandler
     
     let markup: InlineContainer
-    
-    @ObservedObject private var imageHandler = ImageHandler.shared
     
     init(_ markup: InlineContainer) {
         self.markup = markup
@@ -39,7 +38,12 @@ struct InlineContainerView: View {
                 case let value as Markdown.LineBreak:
                     return SwiftUI.Text(verbatim: value.plainText)
                 case let value as Markdown.Image:
-                    return imageHandler.image(for: value, scale: scale)
+                    switch imageHandler.image(for: value, scale: scale) {
+                    case let .success(image):
+                        return SwiftUI.Text(image: image)
+                    case .failure:
+                        return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark"))")
+                    }
                 default:
                     let markdown = markup.format()
                     guard !markdown.isEmpty else { return nil }
