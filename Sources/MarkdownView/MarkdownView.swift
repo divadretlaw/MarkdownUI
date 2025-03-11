@@ -16,7 +16,6 @@ public struct MarkdownView: View {
     
     init(_ markdown: String, spacing: CGFloat? = nil) {
         self.document = Document(parsing: markdown)
-        print(self.document.debugDescription())
         self.spacing = spacing
     }
     
