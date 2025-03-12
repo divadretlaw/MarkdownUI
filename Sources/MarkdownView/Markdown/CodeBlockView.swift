@@ -18,12 +18,24 @@ struct CodeBlockView: View {
     }
     
     var body: some View {
+        #if os(watchOS) || os(tvOS)
+        VStack {
+            Text(markup.code.trimmingCharacters(in: .whitespacesAndNewlines))
+                .font(.caption)
+                .monospaced()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+        }
+        .background(.secondary.opacity(0.2))
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        #else
         GroupBox {
             Text(markup.code.trimmingCharacters(in: .whitespacesAndNewlines))
                 .font(.callout)
                 .monospaced()
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        #endif
     }
 }
 
