@@ -53,7 +53,6 @@ struct MarkupView: View {
                     InlineContainerView(value)
                 default:
                     SwiftUI.Text(markdown: child.format())
-                        .background(.red)
                 }
             }
         }
