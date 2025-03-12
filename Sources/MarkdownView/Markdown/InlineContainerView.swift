@@ -11,7 +11,7 @@ import Nuke
 
 struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
-    @Environment(ImageHandler.self) var imageHandler
+    @Environment(ImageManager.self) var imageManager
     
     let markup: InlineContainer
     
@@ -38,7 +38,7 @@ struct InlineContainerView: View {
                 case let value as Markdown.LineBreak:
                     return SwiftUI.Text(verbatim: value.plainText)
                 case let value as Markdown.Image:
-                    switch imageHandler.image(for: value, scale: scale) {
+                    switch imageManager.image(for: value, scale: scale) {
                     case let .success(image):
                         return SwiftUI.Text(image: image)
                     case .failure:

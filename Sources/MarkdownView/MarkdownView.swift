@@ -12,7 +12,7 @@ public struct MarkdownView: View {
     let document: Document
     let spacing: CGFloat?
     
-    @State private var imageHandler = ImageHandler()
+    @State private var imageHandler = ImageManager()
     
     init(_ markdown: String, spacing: CGFloat? = nil) {
         self.document = Document(parsing: markdown)
