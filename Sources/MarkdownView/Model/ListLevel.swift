@@ -48,19 +48,4 @@ enum ListLevel: RawRepresentable {
             return .more(value + 1)
         }
     }
-    
-    var prefix: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 2) {
-            ForEach(0..<rawValue, id: \.self) { index in
-                switch index {
-                case 0:
-                    Text(verbatim: "\t")
-                case 1:
-                    Text(verbatim: "\t")
-                default:
-                    Text(verbatim: " ")
-                }
-            }
-        }
-    }
 }

@@ -25,7 +25,7 @@ struct TableView: View {
         Grid(horizontalSpacing: 8, verticalSpacing: 2) {
             GridRow {
                 ForEach(table.head) { cell in
-                    MarkupView(cell.wrappedValue)
+                    InlineContainerView(cell.wrappedValue)
                         .bold()
                         .gridColumnAlignment(cell.alignment)
                 }
@@ -39,7 +39,7 @@ struct TableView: View {
             ForEach(table.body) { row in
                 GridRow {
                     ForEach(row.cells) { cell in
-                        MarkupView(cell.wrappedValue)
+                        InlineContainerView(cell.wrappedValue)
                             .gridColumnAlignment(cell.alignment)
                     }
                 }
@@ -50,6 +50,7 @@ struct TableView: View {
             Rectangle()
                 .stroke(Color.secondary, lineWidth: 0.5)
         }
+        .padding(.vertical, 5)
     }
 }
 
@@ -59,7 +60,8 @@ struct TableView: View {
         Colons can be used to align columns.
 
         | Tables        | Are           | Cool  |
-        | ------------- |:-------------:| -----:|
+        |:------------- |:-------------:| -----:|
+        | col 1 is      | left-aligned  |  $800 |
         | col 3 is      | right-aligned | $1600 |
         | col 2 is      | centered      |   $12 |
         | zebra stripes | are neat      |    $1 |

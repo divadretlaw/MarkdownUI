@@ -20,29 +20,39 @@ struct InlineContainerView: View {
     }
     
     var body: some View {
-        markup.inlineChildren
+        render(children: markup.inlineChildren)
+    }
+    
+    func render(children: LazyMapSequence<MarkupChildren, InlineMarkup>) -> SwiftUI.Text {
+        children
             .compactMap { markup in
                 switch markup {
                 case let value as Markdown.Text:
                     return SwiftUI.Text(verbatim: value.plainText)
-                case let value as Markdown.Strong:
-                    return SwiftUI.Text(verbatim: value.plainText).bold()
-                case let value as Markdown.Emphasis:
-                    return SwiftUI.Text(verbatim: value.plainText).italic()
-                case let value as Markdown.Strikethrough:
-                    return SwiftUI.Text(verbatim: value.plainText.replacingOccurrences(of: "~", with: "")).strikethrough()
-                case let value as Markdown.InlineCode:
-                    return SwiftUI.Text(verbatim: value.code).monospaced()
                 case let value as Markdown.SoftBreak:
                     return SwiftUI.Text(verbatim: value.plainText)
                 case let value as Markdown.LineBreak:
                     return SwiftUI.Text(verbatim: value.plainText)
+                case let value as Markdown.InlineCode:
+                    return SwiftUI.Text(verbatim: value.code).monospaced()
+                case let value as Markdown.Strong:
+                    return render(children: value.inlineChildren).bold()
+                case let value as Markdown.Emphasis:
+                    return render(children: value.inlineChildren).italic()
+                case let value as Markdown.Strikethrough:
+                    return render(children: value.inlineChildren).strikethrough()
                 case let value as Markdown.Image:
                     switch imageManager.image(for: value, scale: scale) {
                     case let .success(image):
                         return SwiftUI.Text(image: image)
                     case .failure:
                         return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark"))")
+                    }
+                case let value as Markdown.Link:
+                    if let destination = value.destination, URL(string: destination) != nil {
+                        return SwiftUI.Text("[\(render(children: value.inlineChildren).foregroundStyle(.tint))](\(destination))")
+                    } else {
+                        return SwiftUI.Text(verbatim: value.plainText)
                     }
                 default:
                     let markdown = markup.format()

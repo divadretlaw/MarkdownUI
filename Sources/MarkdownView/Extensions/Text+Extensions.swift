@@ -28,14 +28,20 @@ extension Text {
     }
     
     init(image: PlatformImage?) {
-        guard let image else {
+        if let image {
+            self = Text(image: image)
+        } else {
             self = Text("\(Image(systemName: "photo.badge.arrow.down"))")
-            return
         }
-        #if !os(macOS)
+    }
+    
+    private init(image: PlatformImage) {
+        #if canImport(UIKit)
         self = Text("\(Image(uiImage: image))")
-        #else
+        #elseif canImport(AppKit)
         self = Text("\(Image(nsImage: image))")
+        #else
+        self = Text("\(Image(systemName: "photo.badge.exclamationmark"))")
         #endif
     }
 }

@@ -25,7 +25,6 @@ struct OrderedListView: View {
                 if let listItem = markup.child(at: index) {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Group {
-                            listLevel.prefix
                             Text(indexDescription)
                             if let listItem = listItem as? ListItem, let checked = listItem.checkbox {
                                 switch checked {

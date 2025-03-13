@@ -8,7 +8,7 @@
 import SwiftUI
 import Markdown
 
-struct MarkupView: View {    
+struct MarkupView: View {
     let markup: Markup
     
     init(_ markup: Markup) {
@@ -40,7 +40,7 @@ struct MarkupView: View {
                 case let value as Markdown.BlockQuote:
                     BlockQuoteView(value)
                 case let value as Markdown.Image:
-                    Text(verbatim: value.plainText)
+                    InlineContainerView(value)
                 case let value as Markdown.OrderedList:
                     OrderedListView(value)
                 case let value as Markdown.UnorderedList:
