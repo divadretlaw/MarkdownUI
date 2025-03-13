@@ -27,6 +27,15 @@ struct OrderedListView: View {
                         Group {
                             listLevel.prefix
                             Text(indexDescription)
+                            if let listItem = listItem as? ListItem, let checked = listItem.checkbox {
+                                switch checked {
+                                case .checked:
+                                    Image(systemName: "checkmark.circle.fill")
+                                case .unchecked:
+                                    Image(systemName: "circle")
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
                         }
                         .font(.body.monospaced())
                         
@@ -68,6 +77,11 @@ private extension OrderedList {
            To have a line break without a paragraph, you will need to use two trailing spaces.  
            Note that this line is separate, but within the same paragraph.  
            (This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
+        
+        ---
+        
+        1. [x] Checked
+        2. [ ] Not checked
         """
     )
 }

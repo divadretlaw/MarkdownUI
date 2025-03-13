@@ -26,6 +26,15 @@ struct UnorderedListView: View {
                         Group {
                             listLevel.prefix
                             Text(bullet)
+                            if let listItem = listItem as? ListItem, let checked = listItem.checkbox {
+                                switch checked {
+                                case .checked:
+                                    Image(systemName: "checkmark.circle.fill")
+                                case .unchecked:
+                                    Image(systemName: "circle")
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
                         }
                         .font(.body.monospaced())
                         
@@ -63,6 +72,11 @@ struct UnorderedListView: View {
         * Unordered list can use asterisks
         - Or minuses
         + Or pluses
+        
+        ---
+        
+        * [x] Checked
+        * [ ] Not checked
         """
     )
 }
