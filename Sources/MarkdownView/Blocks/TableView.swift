@@ -13,7 +13,7 @@ struct TableView: View {
     
     let table: Table
     
-    init(markup: Markdown.Table) {
+    init(_ markup: Markdown.Table) {
         self.init(table: Table(from: markup))
     }
     
