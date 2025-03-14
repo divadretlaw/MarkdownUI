@@ -14,15 +14,20 @@ import Markdown
 @MainActor final class ImageManager {
     enum Error: Swift.Error {
         case noURL
+        case failure
     }
     
-    var loadingTasks: [URL: ImageTask]
+    enum State: Equatable {
+        case loading(ImageTask)
+        case failed
+    }
     
+    private(set) var requests: [URL: State]
     private let pipeline: ImagePipeline
-
+    
     init(pipeline: ImagePipeline = .shared) {
         self.pipeline = pipeline
-        self.loadingTasks = [:]
+        self.requests = [:]
     }
     
     func image(for url: URL?, scale: CGFloat) -> Result<PlatformImage?, Error> {
@@ -31,17 +36,31 @@ import Markdown
         }
         
         let request = ImageRequest(url: url, processors: [.scale(scale)])
+        
         if let response = pipeline.cache[request] {
+            // Request already cached
             return .success(response.image)
         } else {
-            // Create image loading task
-            let task = pipeline.loadImage(with: request) { [weak self] _ in
-                guard let self else { return }
-                // Image loading task finished, remove task to force refresh
-                self.loadingTasks[url] = nil
+            switch requests[url] {
+            case .some(.failed):
+                // Request already failed
+                return .failure(.failure)
+            case .some:
+                // Request already running. Return empty success.
+                return .success(nil)
+            default:
+                let task = pipeline.loadImage(with: request) { [weak self] result in
+                    guard let self else { return }
+                    switch result {
+                    case .success:
+                        self.requests[url] = nil
+                    case .failure:
+                        self.requests[url] = .failed
+                    }
+                }
+                requests[url] = .loading(task)
+                return .success(nil)
             }
-            self.loadingTasks[url] = task
-            return .success(nil)
         }
     }
 }
@@ -59,7 +78,7 @@ private extension ImageProcessors {
         public var identifier: String {
             "at.davidwalter.markdown/scale?s=\(scale)"
         }
-
+        
         public var description: String {
             "Scale(scale: \(scale))"
         }

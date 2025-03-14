@@ -31,7 +31,7 @@ extension Text {
         if let image {
             self = Text(image: image)
         } else {
-            self = Text("\(Image(systemName: "photo.badge.arrow.down"))")
+            self = Text("\(Image(systemName: "photo.badge.arrow.down").symbolRenderingMode(.multicolor))")
         }
     }
     
@@ -41,7 +41,7 @@ extension Text {
         #elseif canImport(AppKit)
         self = Text("\(Image(nsImage: image))")
         #else
-        self = Text("\(Image(systemName: "photo.badge.exclamationmark"))")
+        self = Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
         #endif
     }
 }

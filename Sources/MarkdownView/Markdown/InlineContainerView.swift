@@ -46,11 +46,12 @@ struct InlineContainerView: View {
                     case let .success(image):
                         return SwiftUI.Text(image: image)
                     case .failure:
-                        return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark"))")
+                        return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
                     }
                 case let value as Markdown.Link:
                     if let destination = value.destination, URL(string: destination) != nil {
-                        return SwiftUI.Text("[\(render(children: value.inlineChildren).foregroundStyle(.tint))](\(destination))")
+                        return SwiftUI.Text("[\(render(children: value.inlineChildren))](\(destination))")
+                            .foregroundStyle(.tint)
                     } else {
                         return SwiftUI.Text(verbatim: value.plainText)
                     }
@@ -122,17 +123,21 @@ struct InlineContainerView: View {
 #Preview("Images") {
     MarkdownView(
         """
-        ![](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
+        ![](https://dummyimage.com/64x64/0A6FFF/fff&text=A)
         
         Here's our logo (hover to see the title text):
 
         Inline-style:
-        ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+        ![alt text](https://dummyimage.com/64x64/0A6FFF/fff&text=A "Logo Title Text 1")
 
         Reference-style:
         ![alt text][logo]
 
-        [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+        [logo]: https://dummyimage.com/64x64/0A6FFF/fff&text=A "Logo Title Text 2"
+                
+        - ![Invalid url](invalid)
+        - ![Not an image](https://davidwalter.at)
+        - ![Invalid response](https://eu.httpbin.org/status/400)
         """
     )
     .padding(.horizontal, 10)
