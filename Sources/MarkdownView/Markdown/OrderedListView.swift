@@ -19,11 +19,11 @@ struct OrderedListView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: lineSpacing) {
+        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: lineSpacing) {
             ForEach(0..<markup.childCount, id: \.self) { (index: Int) in
                 let indexDescription = markup.index(offset: index)
                 if let listItem = markup.child(at: index) {
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    GridRow {
                         Group {
                             Text(indexDescription)
                             if let listItem = listItem as? ListItem, let checked = listItem.checkbox {
@@ -36,15 +36,19 @@ struct OrderedListView: View {
                                 }
                             }
                         }
-                        .font(.body.monospaced())
+                        .gridColumnAlignment(.trailing)
+                        .monospaced()
                         
-                        if let markup = listItem as? InlineContainer {
-                            InlineContainerView(markup)
-                        } else {
-                            VStack(alignment: .leading, spacing: lineSpacing) {
-                                MarkupView(listItem)
+                        Group {
+                            if let markup = listItem as? InlineContainer {
+                                InlineContainerView(markup)
+                            } else {
+                                VStack(alignment: .leading, spacing: lineSpacing) {
+                                    MarkupView(listItem)
+                                }
                             }
                         }
+                        // .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
             }
@@ -59,6 +63,26 @@ private extension OrderedList {
     func index(offset: Int) -> String {
         "\(startIndex + UInt(offset))."
     }
+}
+
+#Preview {
+    MarkdownView(
+        """
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        1. Test
+        """
+    )
+    .padding()
 }
 
 #Preview {
@@ -83,4 +107,5 @@ private extension OrderedList {
         2. [ ] Not checked
         """
     )
+    .padding()
 }

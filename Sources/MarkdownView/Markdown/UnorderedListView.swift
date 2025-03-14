@@ -19,10 +19,10 @@ struct UnorderedListView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: lineSpacing) {
+        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: lineSpacing) {
             ForEach(0..<markup.childCount, id: \.self) { (index: Int) in
                 if let listItem = markup.child(at: index) {
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    GridRow {
                         Group {
                             Text(bullet)
                             if let listItem = listItem as? ListItem, let checked = listItem.checkbox {
@@ -35,15 +35,19 @@ struct UnorderedListView: View {
                                 }
                             }
                         }
-                        .font(.body.monospaced())
+                        .gridColumnAlignment(.trailing)
+                        .monospaced()
                         
-                        if let markup = listItem as? InlineContainer {
-                            InlineContainerView(markup)
-                        } else {
-                            VStack(alignment: .leading, spacing: lineSpacing) {
-                                MarkupView(listItem)
+                        Group {
+                            if let markup = listItem as? InlineContainer {
+                                InlineContainerView(markup)
+                            } else {
+                                VStack(alignment: .leading, spacing: lineSpacing) {
+                                    MarkupView(listItem)
+                                }
                             }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
             }
@@ -78,6 +82,7 @@ struct UnorderedListView: View {
         * [ ] Not checked
         """
     )
+    .padding()
 }
 
 #Preview {
@@ -92,6 +97,7 @@ struct UnorderedListView: View {
                         * Fith
         """
     )
+    .padding()
 }
 
 #Preview {
@@ -103,4 +109,5 @@ struct UnorderedListView: View {
             > inside a list item.
         """
     )
+    .padding()
 }
