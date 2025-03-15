@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "MarkdownView",
+    name: "MarkdownUI",
     platforms: [
         .iOS(.v17),
         .macOS(.v14),
@@ -14,8 +14,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "MarkdownView",
-            targets: ["MarkdownView"]
+            name: "MarkdownUI",
+            targets: ["MarkdownUI"]
         )
     ],
     dependencies: [
@@ -24,7 +24,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "MarkdownView",
+            name: "MarkdownUI",
             dependencies: [
                 .product(name: "Markdown", package: "swift-markdown"),
                 .product(name: "Nuke", package: "Nuke")
