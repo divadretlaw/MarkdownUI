@@ -30,12 +30,22 @@ struct OrderedListView: View {
     typealias Configuration = ListIndicatorConfiguration
 }
 
-public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
-    @Environment(\.markdownLineSpacing) private var lineSpacing
-    
+public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {    
     public func makeBody(configuration: Configuration) -> some View {
-        Text("\(configuration.startIndex + UInt(configuration.index)).")
-            .monospaced()
+        HStack {
+            Text("\(configuration.startIndex + UInt(configuration.index)).")
+                .monospaced()
+            
+            if let checked = configuration.checked {
+                switch checked {
+                case .checked:
+                    Image(systemName: "checkmark.circle.fill")
+                case .unchecked:
+                    Image(systemName: "circle")
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
     }
 }
 

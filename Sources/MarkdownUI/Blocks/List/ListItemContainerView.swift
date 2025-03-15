@@ -24,7 +24,7 @@ struct ListItemContainerView: View {
         Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: nil) {
             MarkupIterator(list) { index, child in
                 GridRow {
-                    HStack {
+                    Group {
                         switch list {
                         case let orderedList as OrderedList:
                             AnyView(
@@ -32,7 +32,8 @@ struct ListItemContainerView: View {
                                     configuration: ListIndicatorConfiguration(
                                         index: index,
                                         startIndex: orderedList.startIndex,
-                                        level: listLevel
+                                        level: listLevel,
+                                        checked: (child as? ListItem)?.checkbox
                                     )
                                 )
                             )
@@ -42,20 +43,11 @@ struct ListItemContainerView: View {
                                     configuration: ListIndicatorConfiguration(
                                         index: index,
                                         startIndex: 0,
-                                        level: listLevel
+                                        level: listLevel,
+                                        checked: (child as? ListItem)?.checkbox
                                     )
                                 )
                             )
-                        }
-                        
-                        if let listItem = child as? ListItem, let checked = listItem.checkbox {
-                            switch checked {
-                            case .checked:
-                                Image(systemName: "checkmark.circle.fill")
-                            case .unchecked:
-                                Image(systemName: "circle")
-                                    .foregroundStyle(.secondary)
-                            }
                         }
                     }
                     .gridColumnAlignment(.trailing)
@@ -81,12 +73,14 @@ struct ListItemContainerView: View {
 
 public struct ListIndicatorConfiguration {
     public let index: Int
+    public let checked: Checkbox?
     public let startIndex: UInt
     public let level: ListLevel
     
-    init(index: Int, startIndex: UInt, level: ListLevel) {
+    init(index: Int, startIndex: UInt, level: ListLevel, checked: Checkbox?) {
         self.index = index
         self.startIndex = startIndex
         self.level = level
+        self.checked = checked
     }
 }

@@ -30,20 +30,30 @@ struct UnorderedListView: View {
     typealias Configuration = ListIndicatorConfiguration
 }
 
-public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
-    @Environment(\.markdownLineSpacing) private var lineSpacing
-    
+public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {    
     public func makeBody(configuration: Configuration) -> some View {
-        switch configuration.level {
-        case .root:
-            Text("•")
-                .monospaced()
-        case .indented:
-            Text("◦")
-                .monospaced()
-        default:
-            Text("▪")
-                .monospaced()
+        HStack {
+            switch configuration.level {
+            case .root:
+                Text("•")
+                    .monospaced()
+            case .indented:
+                Text("◦")
+                    .monospaced()
+            default:
+                Text("▪")
+                    .monospaced()
+            }
+            
+            if let checked = configuration.checked {
+                switch checked {
+                case .checked:
+                    Image(systemName: "checkmark.circle.fill")
+                case .unchecked:
+                    Image(systemName: "circle")
+                        .foregroundStyle(.secondary)
+                }
+            }
         }
     }
 }
