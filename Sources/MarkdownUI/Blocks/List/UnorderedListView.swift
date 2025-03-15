@@ -22,11 +22,19 @@ struct UnorderedListView: View {
 
 // MARK: - Style
 
+/// A type that applies a custom style to all unordered lists within a ``MarkdownView``.
 @MainActor public protocol UnorderedListIndicatorStyle: Sendable {
+    /// A view that represents the body of a unordered list.
     associatedtype Body: View
 
-    func makeBody(configuration: Configuration) -> Body
+    /// Creates a view that represents the body of a unordered list.
+    ///
+    /// The system calls this method for each list instance in a ``MarkdownView``.
+    ///
+    /// - Parameter configuration: The properties of the unordered list.
+    @ViewBuilder func makeBody(configuration: Configuration) -> Body
     
+    /// The properties of the unordered list.
     typealias Configuration = ListIndicatorConfiguration
 }
 
@@ -77,7 +85,7 @@ extension EnvironmentValues {
 }
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         * Unordered list can use asterisks
         - Or minuses
@@ -88,12 +96,12 @@ extension EnvironmentValues {
         * [x] Checked
         * [ ] Not checked
         """
-    )
+    }
     .padding()
 }
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         * First
         * Test
@@ -103,18 +111,18 @@ extension EnvironmentValues {
                     * Fourth
                         * Fith
         """
-    )
+    }
     .padding()
 }
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         *   A list item with a blockquote:
-
+        
             > This is a blockquote
             > inside a list item.
         """
-    )
+    }
     .padding()
 }

@@ -58,14 +58,23 @@ private struct HeadingFont: ViewModifier {
 
 // MARK: - Style
 
+/// A type that applies a custom style to all headings within a ``MarkdownView``.
 @MainActor public protocol HeadingStyle: Sendable {
+    /// A view that represents the body of a heading.
     associatedtype Body: View
 
-    func makeBody(configuration: Configuration) -> Body
+    /// Creates a view that represents the body of a heading.
+    ///
+    /// The system calls this method for each heading instance in a ``MarkdownView``.
+    ///
+    /// - Parameter configuration: The properties of the heading.
+    @ViewBuilder func makeBody(configuration: Configuration) -> Body
     
+    /// The properties of the heading.
     typealias Configuration = HeadingConfiguration
 }
 
+/// The properties of the heading.
 public struct HeadingConfiguration {
     private let heading: Heading
     
@@ -137,14 +146,14 @@ public extension View {
     }
 }
 
-private extension EnvironmentValues {
+extension EnvironmentValues {
     @Entry var headingStyle: any HeadingStyle = DefaultHeadingStyle()
 }
 
 // MARK: - Preview
 
 #Preview("Default") {
-    MarkdownView(
+    MarkdownView {
         """
         # H1
         ## H2
@@ -152,23 +161,22 @@ private extension EnvironmentValues {
         #### H4
         ##### H5
         ###### H6
-
+        
         Alternatively, for H1 and H2, an underline-ish style:
-
+        
         Alt-H1
         ======
-
+        
         Alt-H2
         ------
         """
-    )
-    .padding(.horizontal, 10)
+    }
+    .padding()
     .markdownHeadingStyle(.default)
-    .buttonStyle(.automatic)
 }
 
 #Preview("Divider") {
-    MarkdownView(
+    MarkdownView {
         """
         # H1
         ## H2
@@ -176,16 +184,16 @@ private extension EnvironmentValues {
         #### H4
         ##### H5
         ###### H6
-
+        
         Alternatively, for H1 and H2, an underline-ish style:
-
+        
         Alt-H1
         ======
-
+        
         Alt-H2
         ------
         """
-    )
-    .padding(.horizontal, 10)
+    }
+    .padding()
     .markdownHeadingStyle(.divider(upTo: 2))
 }

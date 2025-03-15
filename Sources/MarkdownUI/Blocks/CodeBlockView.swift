@@ -24,14 +24,23 @@ struct CodeBlockView: View {
 
 // MARK: - Style
 
+/// A type that applies a custom style to all code blocks within a ``MarkdownView``.
 @MainActor public protocol CodeBlockStyle: Sendable {
+    /// A view that represents the body of a code block.
     associatedtype Body: View
 
-    func makeBody(configuration: Configuration) -> Body
+    /// Creates a view that represents the body of a code block.
+    ///
+    /// The system calls this method for each code block instance in a ``MarkdownView``.
+    ///
+    /// - Parameter configuration: The properties of the code block.
+    @ViewBuilder func makeBody(configuration: Configuration) -> Body
     
+    /// The properties of the code block.
     typealias Configuration = CodeBlockConfiguration
 }
 
+/// The properties of the code block.
 public struct CodeBlockConfiguration {
     private let codeBlock: CodeBlock
     
@@ -40,7 +49,10 @@ public struct CodeBlockConfiguration {
     }
     
     public var code: String {
-        codeBlock.code
+        guard codeBlock.code.hasSuffix("\n") else {
+            return codeBlock.code
+        }
+        return String(codeBlock.code.dropLast())
     }
     
     public var language: String? {
@@ -48,13 +60,11 @@ public struct CodeBlockConfiguration {
     }
 }
 
-public struct DefaultCodeBlockStyle: CodeBlockStyle {
-    @Environment(\.markdownLineSpacing) private var lineSpacing
-    
+public struct DefaultCodeBlockStyle: CodeBlockStyle {    
     public func makeBody(configuration: Configuration) -> some View {
         #if os(watchOS) || os(tvOS)
         VStack {
-            Text(configuration.code.trimmingCharacters(in: .whitespacesAndNewlines))
+            Text(configuration.code)
                 .font(.caption)
                 .monospaced()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -64,7 +74,7 @@ public struct DefaultCodeBlockStyle: CodeBlockStyle {
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         #else
         GroupBox {
-            Text(configuration.code.trimmingCharacters(in: .whitespacesAndNewlines))
+            Text(configuration.code)
                 .font(.callout)
                 .monospaced()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,14 +97,14 @@ public extension View {
     }
 }
 
-private extension EnvironmentValues {
+extension EnvironmentValues {
     @Entry var codeBlockStyle: any CodeBlockStyle = DefaultCodeBlockStyle()
 }
 
 // MARK: - Preview
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         ```javascript
         var s = "JavaScript syntax highlighting";
@@ -111,6 +121,6 @@ private extension EnvironmentValues {
         But let's throw in a <b>tag</b>.
         ```
         """
-    )
-    .padding(.horizontal, 10)
+    }
+    .padding()
 }

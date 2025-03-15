@@ -60,7 +60,7 @@ struct MarkupView: View {
 
 #Preview {
     ScrollView {
-        MarkdownView(
+        MarkdownView {
         """
         Opening paragraph, with an ordered list of autumn leaves I found
         
@@ -98,7 +98,7 @@ struct MarkupView: View {
         
         Tables are even supported but (but need more than `NSAttributedString` for support :p)
         """
-        )
-        .padding(.horizontal, 10)
+        }
+        .padding()
     }
 }

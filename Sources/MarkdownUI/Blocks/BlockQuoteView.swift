@@ -24,14 +24,23 @@ struct BlockQuoteView: View {
 
 // MARK: - Style
 
+/// A type that applies a custom style to all block quotes within a ``MarkdownView``.
 @MainActor public protocol BlockQuoteStyle: Sendable {
+    /// A view that represents the body of a block quote.
     associatedtype Body: View
 
-    func makeBody(configuration: Configuration) -> Body
+    /// Creates a view that represents the body of a block quote.
+    ///
+    /// The system calls this method for each block quote instance in a ``MarkdownView``.
+    ///
+    /// - Parameter configuration: The properties of the block quote.
+    @ViewBuilder func makeBody(configuration: Configuration) -> Body
     
+    /// The properties of the block quote.
     typealias Configuration = BlockQuoteConfiguration
 }
 
+/// The properties of the block quote.
 public struct BlockQuoteConfiguration {
     private let quote: BlockQuote
     
@@ -44,11 +53,9 @@ public struct BlockQuoteConfiguration {
     }
 }
 
-public struct DefaultBlockQuoteStyle: BlockQuoteStyle {
-    @Environment(\.markdownLineSpacing) private var lineSpacing
-    
+public struct DefaultBlockQuoteStyle: BlockQuoteStyle {    
     public func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading, spacing: lineSpacing) {
+        VStack(alignment: .leading) {
             configuration.content
                 .foregroundStyle(.secondary)
         }
@@ -60,7 +67,6 @@ public struct DefaultBlockQuoteStyle: BlockQuoteStyle {
                 .frame(width: 3)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        
     }
 }
 
@@ -78,25 +84,27 @@ public extension View {
     }
 }
 
-private extension EnvironmentValues {
+extension EnvironmentValues {
     @Entry var blockQuoteStyle: any BlockQuoteStyle = DefaultBlockQuoteStyle()
 }
 
 // MARK: - Preview
 
 #Preview {
-    MarkdownView(
-    """
-    > Blockquotes are very handy in email to emulate reply text.
-    > This line is part of the same quote.
-
-    Quote break.
-
-    > This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
-    
-    > This quote has a quote inside
-    >> I'm a quote
-    """
-    )
+    MarkdownView {
+        """
+        > Blockquotes are very handy in email to emulate reply text.
+        > This line is part of the same quote.
+        
+        Quote break.
+        
+        > This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
+        
+        > This quote has a quote inside
+        >> I'm a quote
+        >>
+        >> I'm a quote
+        """
+    }
     .padding()
 }

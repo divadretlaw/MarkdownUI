@@ -52,3 +52,11 @@ extension Text {
         #endif
     }
 }
+
+extension [Text] {
+    func joined() -> Text {
+        reduce(into: Text(verbatim: "")) { partialResult, text in
+            partialResult = partialResult + text
+        }
+    }
+}

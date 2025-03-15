@@ -22,11 +22,19 @@ struct OrderedListView: View {
 
 // MARK: - Style
 
+/// A type that applies a custom style to all ordered lists within a ``MarkdownView``.
 @MainActor public protocol OrderedListIndicatorStyle: Sendable {
+    /// A view that represents the body of a list.
     associatedtype Body: View
 
-    func makeBody(configuration: Configuration) -> Body
+    /// Creates a view that represents the body of a ordered list.
+    ///
+    /// The system calls this method for each list instance in a ``MarkdownView``.
+    ///
+    /// - Parameter configuration: The properties of the ordered list.
+    @ViewBuilder func makeBody(configuration: Configuration) -> Body
     
+    /// The properties of the ordered list.
     typealias Configuration = ListIndicatorConfiguration
 }
 
@@ -68,7 +76,7 @@ extension EnvironmentValues {
 }
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         1. Test
         1. Test
@@ -83,12 +91,12 @@ extension EnvironmentValues {
         1. Test
         1. Test
         """
-    )
+    }
     .padding()
 }
 
 #Preview {
-    MarkdownView(
+    MarkdownView {
         """
         1. First ordered list item
         2. Another item
@@ -108,6 +116,6 @@ extension EnvironmentValues {
         1. [x] Checked
         2. [ ] Not checked
         """
-    )
+    }
     .padding()
 }

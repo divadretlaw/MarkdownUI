@@ -71,6 +71,7 @@ struct ListItemContainerView: View {
 
 // MARK: - Style
 
+/// The properties of the list.
 public struct ListIndicatorConfiguration {
     public let index: Int
     public let checked: Checkbox?

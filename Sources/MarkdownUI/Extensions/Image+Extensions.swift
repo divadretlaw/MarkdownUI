@@ -13,7 +13,7 @@ import UIKit
 
 extension UIImage {
     func scalePreservingAspectRatio(scale: CGFloat) -> UIImage {
-        let scaleFactor = 1 / scale
+        let scaleFactor = 1.0 / scale
         
         // Compute the new image size that preserves aspect ratio
         let scaledImageSize = CGSize(
@@ -58,8 +58,8 @@ extension NSImage {
     }
     
     func scalePreservingAspectRatio(scale: CGFloat) -> NSImage {
-        let scaleFactor = 1.0 / scale
-        
+        let scaleFactor = 2.0 / scale
+
         // Compute the new image size that preserves aspect ratio
         let scaledImageSize = CGSize(
             width: size.width * scaleFactor,
