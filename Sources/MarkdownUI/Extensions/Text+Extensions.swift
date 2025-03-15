@@ -9,21 +9,28 @@ import SwiftUI
 import Nuke
 
 extension Text {
-    init(markdown text: String) {
+    init(markdown: String, url: URL? = nil) {
         do {
             let attributedString = try AttributedString(
-                markdown: text,
+                markdown: markdown,
                 options: .init(
                     allowsExtendedAttributes: true,
-                    interpretedSyntax: .full,
+                    interpretedSyntax: .inlineOnlyPreservingWhitespace,
                     failurePolicy: .returnPartiallyParsedIfPossible,
                     languageCode: nil
                 ),
                 baseURL: nil
             )
-            self = Text(attributedString)
+            
+            if let url {
+                var container = AttributeContainer()
+                container.link = url
+                self = Text(attributedString.mergingAttributes(container, mergePolicy: .keepNew))
+            } else {
+                self = Text(attributedString)
+            }
         } catch {
-            self = Text(verbatim: text)
+            self = Text(verbatim: markdown)
         }
     }
     

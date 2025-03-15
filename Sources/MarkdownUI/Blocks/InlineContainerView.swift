@@ -49,9 +49,10 @@ struct InlineContainerView: View {
                         return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
                     }
                 case let value as Markdown.Link:
-                    if let destination = value.destination, URL(string: destination) != nil {
-                        return SwiftUI.Text("[\(render(children: value.inlineChildren))](\(destination))")
-                            .foregroundStyle(.tint)
+                    if let destination = value.destination {
+                        // Known Issue: AttributedString doesn't render images
+                        let markdown = value.format(options: .init(condenseAutolinks: false))
+                        return SwiftUI.Text(markdown: markdown, url: URL(string: destination))
                     } else {
                         return SwiftUI.Text(verbatim: value.plainText)
                     }
