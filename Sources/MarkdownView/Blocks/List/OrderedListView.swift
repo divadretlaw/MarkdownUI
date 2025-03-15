@@ -25,25 +25,9 @@ struct OrderedListView: View {
 @MainActor public protocol OrderedListIndicatorStyle: Sendable {
     associatedtype Body: View
 
-    func makeBody(configuration: Self.Configuration) -> Self.Body
+    func makeBody(configuration: Configuration) -> Body
     
-    typealias Configuration = OrderedListIndicatorConfiguration
-}
-
-public struct OrderedListIndicatorConfiguration {
-    public let index: Int
-    public let startIndex: UInt
-    private let listLevel: ListLevel
-    
-    init(index: Int, startIndex: UInt, level: ListLevel) {
-        self.index = index
-        self.startIndex = startIndex
-        self.listLevel = level
-    }
-    
-    public var level: Int {
-        listLevel.rawValue
-    }
+    typealias Configuration = ListIndicatorConfiguration
 }
 
 public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
@@ -64,7 +48,7 @@ public extension OrderedListIndicatorStyle where Self == DefaultOrderedListIndic
 // MARK: Environment
 
 public extension View {
-    func markdownOrderedListIndicatorStyle<S>(_ style: S) -> some View where S: OrderedListIndicatorStyle {
+    func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: OrderedListIndicatorStyle {
         environment(\.orderedListIndicatorStyle, style)
     }
 }

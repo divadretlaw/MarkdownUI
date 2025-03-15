@@ -39,7 +39,6 @@ struct Table {
                 Cell(cell, alignment: columnAlignments[index])
             }
         
-        
         let body = table.body.children
             .compactMap { row in
                 let cells = row.children
@@ -53,7 +52,6 @@ struct Table {
         
         self.init(head: head, body: body)
     }
-    
 }
 
 extension Table {

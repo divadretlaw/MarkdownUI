@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  HeadingView.swift
 //  MarkdownView
 //
 //  Created by David Walter on 09.03.25.
@@ -61,7 +61,7 @@ private struct HeadingFont: ViewModifier {
 @MainActor public protocol HeadingStyle: Sendable {
     associatedtype Body: View
 
-    func makeBody(configuration: Self.Configuration) -> Self.Body
+    func makeBody(configuration: Configuration) -> Body
     
     typealias Configuration = HeadingConfiguration
 }

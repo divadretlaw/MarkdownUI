@@ -21,7 +21,7 @@ struct ListItemContainerView: View {
     }
     
     var body: some View {
-        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: lineSpacing) {
+        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: nil) {
             MarkupIterator(list) { index, child in
                 GridRow {
                     HStack {
@@ -29,7 +29,7 @@ struct ListItemContainerView: View {
                         case let orderedList as OrderedList:
                             AnyView(
                                 orderedStyle.makeBody(
-                                    configuration: OrderedListIndicatorConfiguration(
+                                    configuration: ListIndicatorConfiguration(
                                         index: index,
                                         startIndex: orderedList.startIndex,
                                         level: listLevel
@@ -39,7 +39,9 @@ struct ListItemContainerView: View {
                         default:
                             AnyView(
                                 unorderedStyle.makeBody(
-                                    configuration: UnorderedListIndicatorConfiguration(
+                                    configuration: ListIndicatorConfiguration(
+                                        index: index,
+                                        startIndex: 0,
                                         level: listLevel
                                     )
                                 )
@@ -62,7 +64,7 @@ struct ListItemContainerView: View {
                         if let markup = child as? InlineContainer {
                             InlineContainerView(markup)
                         } else {
-                            VStack(alignment: .leading, spacing: lineSpacing) {
+                            VStack(alignment: .leading) {
                                 MarkupView(child)
                             }
                         }
@@ -72,5 +74,19 @@ struct ListItemContainerView: View {
         }
         .padding(.vertical, listLevel.isRoot ? 10 : 0)
         .environment(\.markdownListLevel, listLevel.next())
+    }
+}
+
+// MARK: - Style
+
+public struct ListIndicatorConfiguration {
+    public let index: Int
+    public let startIndex: UInt
+    public let level: ListLevel
+    
+    init(index: Int, startIndex: UInt, level: ListLevel) {
+        self.index = index
+        self.startIndex = startIndex
+        self.level = level
     }
 }

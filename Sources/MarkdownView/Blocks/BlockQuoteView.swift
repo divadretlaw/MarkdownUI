@@ -27,7 +27,7 @@ struct BlockQuoteView: View {
 @MainActor public protocol BlockQuoteStyle: Sendable {
     associatedtype Body: View
 
-    func makeBody(configuration: Self.Configuration) -> Self.Body
+    func makeBody(configuration: Configuration) -> Body
     
     typealias Configuration = BlockQuoteConfiguration
 }

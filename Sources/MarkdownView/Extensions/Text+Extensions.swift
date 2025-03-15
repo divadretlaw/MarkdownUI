@@ -15,7 +15,7 @@ extension Text {
                 markdown: text,
                 options: .init(
                     allowsExtendedAttributes: true,
-                    interpretedSyntax: .inlineOnlyPreservingWhitespace,
+                    interpretedSyntax: .full,
                     failurePolicy: .returnPartiallyParsedIfPossible,
                     languageCode: nil
                 ),

@@ -20,8 +20,8 @@ struct MarkupView: View {
             switch child {
             case let value as Markdown.Heading:
                 HeadingView(value)
-            case let value as Markdown.Text:
-                SwiftUI.Text(verbatim: value.plainText)
+            case let value as Markdown.Paragraph:
+                InlineContainerView(value)
             case let value as Markdown.Strong:
                 InlineContainerView(value).bold()
             case let value as Markdown.Emphasis:
@@ -47,10 +47,11 @@ struct MarkupView: View {
             case let value as Markdown.Table:
                 TableView(value)
             case is Markdown.ThematicBreak:
-                Divider()
-            case let value as Markdown.Paragraph:
-                InlineContainerView(value)
+                ThematicBreakView()
+            case let value as Markdown.Text:
+                SwiftUI.Text(verbatim: value.plainText)
             default:
+                // Unhandled element. Render format with AttributedString
                 SwiftUI.Text(markdown: child.format())
             }
         }

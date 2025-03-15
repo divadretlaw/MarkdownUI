@@ -27,7 +27,7 @@ struct CodeBlockView: View {
 @MainActor public protocol CodeBlockStyle: Sendable {
     associatedtype Body: View
 
-    func makeBody(configuration: Self.Configuration) -> Self.Body
+    func makeBody(configuration: Configuration) -> Body
     
     typealias Configuration = CodeBlockConfiguration
 }

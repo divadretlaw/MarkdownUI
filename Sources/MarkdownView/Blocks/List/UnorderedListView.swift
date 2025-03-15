@@ -25,32 +25,20 @@ struct UnorderedListView: View {
 @MainActor public protocol UnorderedListIndicatorStyle: Sendable {
     associatedtype Body: View
 
-    func makeBody(configuration: Self.Configuration) -> Self.Body
+    func makeBody(configuration: Configuration) -> Body
     
-    typealias Configuration = UnorderedListIndicatorConfiguration
-}
-
-public struct UnorderedListIndicatorConfiguration {
-    internal let listLevel: ListLevel
-    
-    init(level: ListLevel) {
-        self.listLevel = level
-    }
-    
-    public var level: Int {
-        listLevel.rawValue
-    }
+    typealias Configuration = ListIndicatorConfiguration
 }
 
 public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
     @Environment(\.markdownLineSpacing) private var lineSpacing
     
     public func makeBody(configuration: Configuration) -> some View {
-        switch configuration.listLevel {
+        switch configuration.level {
         case .root:
             Text("•")
                 .monospaced()
-        case .one:
+        case .indented:
             Text("◦")
                 .monospaced()
         default:
@@ -69,7 +57,7 @@ public extension UnorderedListIndicatorStyle where Self == DefaultUnorderedListI
 // MARK: Environment
 
 public extension View {
-    func markdownUnorderedListIndicatorStyle<S>(_ style: S) -> some View where S: UnorderedListIndicatorStyle {
+    func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: UnorderedListIndicatorStyle {
         environment(\.unorderedListIndicatorStyle, style)
     }
 }

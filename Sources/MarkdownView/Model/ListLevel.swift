@@ -7,45 +7,60 @@
 
 import SwiftUI
 
-enum ListLevel: RawRepresentable {
+/// The level of indentation of a Markdown list
+public enum ListLevel: RawRepresentable, Sendable {
+    /// The root level
     case root
-    case one
-    case more(_ level: Int)
+    /// The level following root
+    case indented
+    /// All other levels
+    case furtherIndented(_ level: Int)
     
-    init(rawValue: Int) {
+    // MARK: - RawRepresentable
+    
+    public init(rawValue: Int) {
         switch rawValue {
         case 0:
             self = .root
         case 1:
-            self = .one
+            self = .indented
         default:
-            self = .more(rawValue)
+            self = .furtherIndented(rawValue)
         }
     }
     
-    var rawValue: Int {
+    public var rawValue: Int {
         switch self {
         case .root:
             0
-        case .one:
+        case .indented:
             1
-        case let .more(value):
+        case let .furtherIndented(value):
             value
         }
     }
     
-    var isRoot: Bool {
+    // MARK: - Helper
+    
+    /// Check if this level represents the root of the list
+    public var isRoot: Bool {
         self == .root
     }
     
-    func next() -> ListLevel {
-        switch self {
-        case .root:
-            return .one
-        case .one:
-            return .more(2)
-        case let .more(value):
-            return .more(value + 1)
-        }
+    func next() -> Self {
+        ListLevel(rawValue: rawValue + 1)
+    }
+}
+
+// MARK: - Environment
+
+private struct MarkdownListLevelKey: EnvironmentKey {
+    static let defaultValue: ListLevel = .root
+}
+
+extension EnvironmentValues {
+    var markdownListLevel: ListLevel {
+        get { self[MarkdownListLevelKey.self] }
+        set { self[MarkdownListLevelKey.self] = newValue }
     }
 }
