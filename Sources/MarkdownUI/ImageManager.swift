@@ -77,6 +77,18 @@ private extension ImageProcessors {
             image.scalePreservingAspectRatio(scale: scale)
         }
         
+        func process(_ container: ImageContainer, context: ImageProcessingContext) throws -> ImageContainer {
+            guard container.type != nil else {
+                return container
+            }
+            guard let output = process(container.image) else {
+                throw ImageProcessingError.unknown
+            }
+            var container = container
+            container.image = output
+            return container
+        }
+        
         public var identifier: String {
             "at.davidwalter.markdown/scale?s=\(scale)"
         }
