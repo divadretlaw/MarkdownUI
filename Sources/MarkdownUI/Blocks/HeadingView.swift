@@ -92,6 +92,10 @@ public struct HeadingConfiguration {
 }
 
 public struct DefaultHeadingStyle: HeadingStyle {
+    /// Required by Swift 5 language mode
+    nonisolated init() {
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
         configuration.content
             .modifier(HeadingFont(level: configuration.level))
@@ -110,7 +114,7 @@ public extension HeadingStyle where Self == DefaultHeadingStyle {
 public struct DividerHeadingStyle: HeadingStyle {
     let level: Int
     
-    init(upTo level: Int) {
+    nonisolated init(upTo level: Int) {
         self.level = level
     }
     

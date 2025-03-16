@@ -38,7 +38,11 @@ struct UnorderedListView: View {
     typealias Configuration = ListIndicatorConfiguration
 }
 
-public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {    
+public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
+    /// Required by Swift 5 language mode
+    nonisolated init() {
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             switch configuration.level {

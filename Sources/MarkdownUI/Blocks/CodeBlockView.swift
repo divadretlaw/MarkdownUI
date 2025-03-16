@@ -60,7 +60,11 @@ public struct CodeBlockConfiguration {
     }
 }
 
-public struct DefaultCodeBlockStyle: CodeBlockStyle {    
+public struct DefaultCodeBlockStyle: CodeBlockStyle {
+    /// Required by Swift 5 language mode
+    nonisolated init() {
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
         #if os(watchOS) || os(tvOS)
         VStack {

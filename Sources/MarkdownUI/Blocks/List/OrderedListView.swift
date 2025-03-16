@@ -38,7 +38,11 @@ struct OrderedListView: View {
     typealias Configuration = ListIndicatorConfiguration
 }
 
-public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {    
+public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
+    /// Required by Swift 5 language mode
+    nonisolated init() {
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             Text("\(configuration.startIndex + UInt(configuration.index)).")

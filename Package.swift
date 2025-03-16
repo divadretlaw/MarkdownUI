@@ -28,7 +28,8 @@ let package = Package(
             dependencies: [
                 .product(name: "Markdown", package: "swift-markdown"),
                 .product(name: "Nuke", package: "Nuke")
-            ]
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)] // Required for Nuke
         )
     ]
 )

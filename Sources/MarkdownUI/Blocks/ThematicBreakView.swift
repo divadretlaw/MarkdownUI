@@ -44,6 +44,10 @@ struct ThematicBreakView: View {
 public struct ThematicBreakConfiguration {}
 
 public struct DefaultThematicBreakStyle: ThematicBreakStyle {
+    /// Required by Swift 5 language mode
+    nonisolated init() {
+    }
+    
     public func makeBody(configuration _: Configuration) -> some View {
         Divider()
     }
