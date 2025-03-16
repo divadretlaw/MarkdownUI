@@ -1,6 +1,6 @@
 //
 //  ListLevel.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 09.03.25.
 //
@@ -54,13 +54,6 @@ public enum ListLevel: RawRepresentable, Sendable {
 
 // MARK: - Environment
 
-private struct MarkdownListLevelKey: EnvironmentKey {
-    static let defaultValue: ListLevel = .root
-}
-
 extension EnvironmentValues {
-    var markdownListLevel: ListLevel {
-        get { self[MarkdownListLevelKey.self] }
-        set { self[MarkdownListLevelKey.self] = newValue }
-    }
+    @Entry var listLevel: ListLevel = .root
 }

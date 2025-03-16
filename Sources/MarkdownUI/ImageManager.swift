@@ -1,6 +1,6 @@
 //
 //  ImageManager.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 10.03.25.
 //
@@ -89,11 +89,11 @@ extension ImageProcessors {
             return container
         }
         
-        public var identifier: String {
+        var identifier: String {
             "at.davidwalter.markdown/scale?s=\(scale)"
         }
         
-        public var description: String {
+        var description: String {
             "Scale(scale: \(scale))"
         }
     }

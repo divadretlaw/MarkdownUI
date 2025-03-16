@@ -1,6 +1,6 @@
 //
 //  MarkdownView.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 07.03.25.
 //
@@ -49,7 +49,8 @@ public struct MarkdownView: View {
         .bold(false)
         .italic(false)
         .monospaced(false)
-        .environment(\.markdownLineSpacing, spacing)
+        // Set environment
+        .environment(\.lineSpacing, spacing)
         .environment(imageHandler)
     }
 }

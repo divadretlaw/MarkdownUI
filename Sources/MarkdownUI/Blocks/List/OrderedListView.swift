@@ -1,6 +1,6 @@
 //
 //  OrderedListView.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 09.03.25.
 //
@@ -10,11 +10,11 @@ import Markdown
 
 struct OrderedListView: View {
     let markup: ListItemContainer
-    
+
     init(_ markup: OrderedList) {
         self.markup = markup
     }
-    
+
     var body: some View {
         ListItemContainerView(markup)
     }
@@ -26,14 +26,14 @@ struct OrderedListView: View {
 @MainActor public protocol OrderedListIndicatorStyle: Sendable {
     /// A view that represents the body of a list.
     associatedtype Body: View
-    
+
     /// Creates a view that represents the body of a ordered list.
     ///
     /// The system calls this method for each list instance in a ``MarkdownView``.
     ///
     /// - Parameter configuration: The properties of the ordered list.
     @ViewBuilder func makeBody(configuration: Configuration) -> Body
-    
+
     /// The properties of the ordered list.
     typealias Configuration = ListIndicatorConfiguration
 }
@@ -42,12 +42,12 @@ public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
     /// Required by Swift 5 language mode
     nonisolated init() {
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
-            Text("\(configuration.startIndex + UInt(configuration.index)).")
-                .monospaced()
-            
+            Text("\(configuration.displayIndex).")
+                .monospacedDigit()
+
             if let checked = configuration.checked {
                 switch checked {
                 case .checked:
@@ -108,15 +108,15 @@ extension EnvironmentValues {
         1. Actual numbers don't matter, just that it's a number
             1. Ordered sub-list
         4. And another item.
-        
+
            You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
-        
+
            To have a line break without a paragraph, you will need to use two trailing spaces.  
            Note that this line is separate, but within the same paragraph.  
            (This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
-        
+
         ---
-        
+
         1. [x] Checked
         2. [ ] Not checked
         """

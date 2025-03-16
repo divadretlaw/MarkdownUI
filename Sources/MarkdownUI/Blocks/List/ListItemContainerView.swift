@@ -1,6 +1,6 @@
 //
 //  ListItemContainerView.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 14.03.25.
 //
@@ -9,8 +9,8 @@ import SwiftUI
 import Markdown
 
 struct ListItemContainerView: View {
-    @Environment(\.markdownLineSpacing) private var lineSpacing
-    @Environment(\.markdownListLevel) private var listLevel
+    @Environment(\.lineSpacing) private var lineSpacing
+    @Environment(\.listLevel) private var listLevel
     @Environment(\.orderedListIndicatorStyle) private var orderedStyle
     @Environment(\.unorderedListIndicatorStyle) private var unorderedStyle
     
@@ -65,7 +65,7 @@ struct ListItemContainerView: View {
             }
         }
         .padding(.vertical, listLevel.isRoot ? 10 : 0)
-        .environment(\.markdownListLevel, listLevel.next())
+        .environment(\.listLevel, listLevel.next())
     }
 }
 
@@ -83,5 +83,10 @@ public struct ListIndicatorConfiguration {
         self.startIndex = startIndex
         self.level = level
         self.checked = checked
+    }
+    
+    /// The value of the index to display
+    public var displayIndex: Int {
+        Int(startIndex) + index
     }
 }

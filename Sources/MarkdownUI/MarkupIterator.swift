@@ -1,6 +1,6 @@
 //
 //  MarkupIterator.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 14.03.25.
 //

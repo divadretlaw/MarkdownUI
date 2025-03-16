@@ -1,6 +1,6 @@
 //
 //  ThematicBreakView.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 15.03.25.
 //

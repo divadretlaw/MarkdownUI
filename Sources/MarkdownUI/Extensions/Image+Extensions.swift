@@ -1,6 +1,6 @@
 //
 //  Image+Extensions.swift
-//  MarkdownView
+//  MarkdownUI
 //
 //  Created by David Walter on 11.03.25.
 //
