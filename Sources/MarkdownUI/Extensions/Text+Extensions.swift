@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Nuke
+import OSLog
 
 extension Text {
     init(markdown: String, url: URL? = nil) {
@@ -30,6 +31,7 @@ extension Text {
                 self = Text(attributedString)
             }
         } catch {
+            Logger.text.error("\(error.localizedDescription)")
             self = Text(verbatim: markdown)
         }
     }

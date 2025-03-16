@@ -9,6 +9,7 @@ import Foundation
 import Observation
 import Nuke
 import Markdown
+import OSLog
 
 @Observable
 @MainActor final class ImageManager {
@@ -54,7 +55,8 @@ import Markdown
                     switch result {
                     case .success:
                         self.requests[url] = nil
-                    case .failure:
+                    case let .failure(error):
+                        Logger.image.error("\(error.localizedDescription)")
                         self.requests[url] = .failed
                     }
                 }
