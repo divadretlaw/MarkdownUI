@@ -23,24 +23,11 @@ public struct TableConfiguration {
     }
     
     init(from table: Markdown.Table) {
-        let columnAlignments: [HorizontalAlignment?] = table.columnAlignments.map { alignment in
-            switch alignment {
-            case .left:
-                return .leading
-            case .right:
-                return .trailing
-            case .center:
-                return .center
-            default:
-                return nil
-            }
-        }
-        
         let head = table.head.children
             .compactMap { $0 as? Markdown.Table.Cell }
             .enumerated()
             .map { index, cell in
-                Cell(cell, alignment: columnAlignments[index])
+                Cell(cell, alignment: table.columnAlignments[index])
             }
         
         let body = table.body.children
@@ -49,7 +36,7 @@ public struct TableConfiguration {
                     .compactMap { $0 as? Markdown.Table.Cell }
                     .enumerated()
                     .map { index, cell in
-                        Cell(cell, alignment: columnAlignments[index])
+                        Cell(cell, alignment: table.columnAlignments[index])
                     }
                 return Row(cells)
             }

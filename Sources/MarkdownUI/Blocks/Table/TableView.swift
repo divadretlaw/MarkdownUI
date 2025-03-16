@@ -52,7 +52,7 @@ public struct DefaultTableStyle: TableStyle {
                     cell.content
                         .padding(.vertical, 2)
                         .bold()
-                        .gridColumnAlignment(cell.alignment)
+                        .gridColumnAlignment(cell.horizontalAlignment ?? .leading)
                     if index < (configuration.head.count - 1) {
                         Rectangle()
                             .fill(.secondary)
@@ -71,7 +71,7 @@ public struct DefaultTableStyle: TableStyle {
                     EnumeratedForEach(row.cells) { index, cell in
                         cell.content
                             .padding(.vertical, 1)
-                            .gridColumnAlignment(cell.alignment)
+                            .gridColumnAlignment(cell.horizontalAlignment ?? .leading)
                         if index < (row.cells.count - 1) {
                             Rectangle()
                                 .fill(.secondary)
@@ -95,16 +95,16 @@ public struct DefaultTableStyle: TableStyle {
     }
 }
 
-extension TableStyle where Self == DefaultTableStyle {
-    public static var `default`: DefaultTableStyle {
+public extension TableStyle where Self == DefaultTableStyle {
+    static var `default`: DefaultTableStyle {
         DefaultTableStyle()
     }
 }
 
 // MARK: Environment
 
-extension View {
-    public func markdownTableStyle<S>(_ style: S) -> some View where S: TableStyle {
+public extension View {
+    func markdownTableStyle<S>(_ style: S) -> some View where S: TableStyle {
         environment(\.tableStyle, style)
     }
 }

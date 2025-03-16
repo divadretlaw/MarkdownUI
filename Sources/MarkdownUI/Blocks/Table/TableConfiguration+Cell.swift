@@ -14,17 +14,47 @@ extension TableConfiguration {
     public struct Cell: Identifiable {
         public let id = UUID()
         private let wrappedValue: Markdown.Table.Cell
-        /// The preferred horizontal alignment of the cell
-        public let alignment: HorizontalAlignment
+        /// The preferred column alignment of the cell
+        public let columnAlignment: Markdown.Table.ColumnAlignment?
         
-        init(_ wrappedValue: Markdown.Table.Cell, alignment: HorizontalAlignment?) {
+        init(_ wrappedValue: Markdown.Table.Cell, alignment: Markdown.Table.ColumnAlignment?) {
             self.wrappedValue = wrappedValue
-            self.alignment = alignment ?? .center
+            self.columnAlignment = alignment ?? .center
         }
         
+        // MARK: - SwiftUI
+        
         /// The content the cell is displaying
-        @MainActor var content: some View {
+        @MainActor public var content: some View {
             InlineContainerView(wrappedValue)
+        }
+        
+        /// The preferred horizontal alignment of the cell
+        public var horizontalAlignment: HorizontalAlignment? {
+            switch columnAlignment {
+            case .left:
+                return .leading
+            case .right:
+                return .trailing
+            case .center:
+                return .center
+            default:
+                return nil
+            }
+        }
+        
+        /// The preferred alignment of the cell
+        public var alignment: Alignment? {
+            switch columnAlignment {
+            case .left:
+                return .leading
+            case .right:
+                return .trailing
+            case .center:
+                return .center
+            default:
+                return nil
+            }
         }
     }
 }
