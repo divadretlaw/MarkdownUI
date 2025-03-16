@@ -26,7 +26,7 @@ struct UnorderedListView: View {
 @MainActor public protocol UnorderedListIndicatorStyle: Sendable {
     /// A view that represents the body of a unordered list.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a unordered list.
     ///
     /// The system calls this method for each list instance in a ``MarkdownView``.
@@ -70,16 +70,16 @@ public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
     }
 }
 
-public extension UnorderedListIndicatorStyle where Self == DefaultUnorderedListIndicatorStyle {
-    static var `default`: DefaultUnorderedListIndicatorStyle {
+extension UnorderedListIndicatorStyle where Self == DefaultUnorderedListIndicatorStyle {
+    public static var `default`: DefaultUnorderedListIndicatorStyle {
         DefaultUnorderedListIndicatorStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: UnorderedListIndicatorStyle {
+extension View {
+    public func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: UnorderedListIndicatorStyle {
         environment(\.unorderedListIndicatorStyle, style)
     }
 }

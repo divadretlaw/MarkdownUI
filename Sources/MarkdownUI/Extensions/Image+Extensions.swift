@@ -26,11 +26,12 @@ extension UIImage {
         defer { UIGraphicsEndImageContext() }
         
         // Draw and return the resized UIImage
-        self.draw(in: CGRect(
-            origin: .zero,
-            size: scaledImageSize
-        ))
-
+        self.draw(
+            in: CGRect(
+                origin: .zero,
+                size: scaledImageSize
+            ))
+        
         return UIGraphicsGetImageFromCurrentImageContext() ?? self
         #else
         // Draw and return the resized UIImage
@@ -39,10 +40,11 @@ extension UIImage {
         )
         
         return renderer.image { _ in
-            self.draw(in: CGRect(
-                origin: .zero,
-                size: scaledImageSize
-            ))
+            self.draw(
+                in: CGRect(
+                    origin: .zero,
+                    size: scaledImageSize
+                ))
         }
         #endif
     }
@@ -59,7 +61,7 @@ extension NSImage {
     
     func scalePreservingAspectRatio(scale: CGFloat) -> NSImage {
         let scaleFactor = 1.0 / scale
-
+        
         // Compute the new image size that preserves aspect ratio
         let scaledImageSize = CGSize(
             width: size.width * scaleFactor,

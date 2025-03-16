@@ -28,7 +28,7 @@ struct CodeBlockView: View {
 @MainActor public protocol CodeBlockStyle: Sendable {
     /// A view that represents the body of a code block.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a code block.
     ///
     /// The system calls this method for each code block instance in a ``MarkdownView``.
@@ -87,16 +87,16 @@ public struct DefaultCodeBlockStyle: CodeBlockStyle {
     }
 }
 
-public extension CodeBlockStyle where Self == DefaultCodeBlockStyle {
-    static var `default`: DefaultCodeBlockStyle {
+extension CodeBlockStyle where Self == DefaultCodeBlockStyle {
+    public static var `default`: DefaultCodeBlockStyle {
         DefaultCodeBlockStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownCodeBlockStyle<S>(_ style: S) -> some View where S: CodeBlockStyle {
+extension View {
+    public func markdownCodeBlockStyle<S>(_ style: S) -> some View where S: CodeBlockStyle {
         environment(\.codeBlockStyle, style)
     }
 }

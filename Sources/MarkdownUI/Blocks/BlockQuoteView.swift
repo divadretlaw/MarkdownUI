@@ -28,7 +28,7 @@ struct BlockQuoteView: View {
 @MainActor public protocol BlockQuoteStyle: Sendable {
     /// A view that represents the body of a block quote.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a block quote.
     ///
     /// The system calls this method for each block quote instance in a ``MarkdownView``.
@@ -74,16 +74,16 @@ public struct DefaultBlockQuoteStyle: BlockQuoteStyle {
     }
 }
 
-public extension BlockQuoteStyle where Self == DefaultBlockQuoteStyle {
-    static var `default`: DefaultBlockQuoteStyle {
+extension BlockQuoteStyle where Self == DefaultBlockQuoteStyle {
+    public static var `default`: DefaultBlockQuoteStyle {
         DefaultBlockQuoteStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownBlockQuoteStyle<S>(_ style: S) -> some View where S: BlockQuoteStyle {
+extension View {
+    public func markdownBlockQuoteStyle<S>(_ style: S) -> some View where S: BlockQuoteStyle {
         environment(\.blockQuoteStyle, style)
     }
 }

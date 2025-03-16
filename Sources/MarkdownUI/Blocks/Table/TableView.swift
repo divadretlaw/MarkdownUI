@@ -28,7 +28,7 @@ struct TableView: View {
 @MainActor public protocol TableStyle: Sendable {
     /// A view that represents the body of a table.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a table.
     ///
     /// The system calls this method for each table instance in a ``MarkdownView``.
@@ -95,16 +95,16 @@ public struct DefaultTableStyle: TableStyle {
     }
 }
 
-public extension TableStyle where Self == DefaultTableStyle {
-    static var `default`: DefaultTableStyle {
+extension TableStyle where Self == DefaultTableStyle {
+    public static var `default`: DefaultTableStyle {
         DefaultTableStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownTableStyle<S>(_ style: S) -> some View where S: TableStyle {
+extension View {
+    public func markdownTableStyle<S>(_ style: S) -> some View where S: TableStyle {
         environment(\.tableStyle, style)
     }
 }

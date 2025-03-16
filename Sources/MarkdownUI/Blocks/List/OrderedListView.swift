@@ -26,7 +26,7 @@ struct OrderedListView: View {
 @MainActor public protocol OrderedListIndicatorStyle: Sendable {
     /// A view that represents the body of a list.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a ordered list.
     ///
     /// The system calls this method for each list instance in a ``MarkdownView``.
@@ -61,16 +61,16 @@ public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
     }
 }
 
-public extension OrderedListIndicatorStyle where Self == DefaultOrderedListIndicatorStyle {
-    static var `default`: DefaultOrderedListIndicatorStyle {
+extension OrderedListIndicatorStyle where Self == DefaultOrderedListIndicatorStyle {
+    public static var `default`: DefaultOrderedListIndicatorStyle {
         DefaultOrderedListIndicatorStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: OrderedListIndicatorStyle {
+extension View {
+    public func markdownListIndicatorStyle<S>(_ style: S) -> some View where S: OrderedListIndicatorStyle {
         environment(\.orderedListIndicatorStyle, style)
     }
 }

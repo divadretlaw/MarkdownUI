@@ -69,8 +69,8 @@ import OSLog
 
 // MARK: - Nuke
 
-private extension ImageProcessors {
-    struct Scale: ImageProcessing {
+extension ImageProcessors {
+    fileprivate struct Scale: ImageProcessing {
         var scale: CGFloat
         
         func process(_ image: PlatformImage) -> PlatformImage? {
@@ -99,8 +99,8 @@ private extension ImageProcessors {
     }
 }
 
-private extension ImageProcessing where Self == ImageProcessors.Scale {
-    static func scale(_ scale: CGFloat) -> ImageProcessors.Scale {
+extension ImageProcessing where Self == ImageProcessors.Scale {
+    fileprivate static func scale(_ scale: CGFloat) -> ImageProcessors.Scale {
         ImageProcessors.Scale(scale: scale)
     }
 }
@@ -113,8 +113,8 @@ extension ImageManager {
     }
 }
 
-private extension Markdown.Image {
-    var url: URL? {
+extension Markdown.Image {
+    fileprivate var url: URL? {
         guard let source else { return nil }
         return URL(string: source)
     }

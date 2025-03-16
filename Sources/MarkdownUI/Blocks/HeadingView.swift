@@ -62,7 +62,7 @@ private struct HeadingFont: ViewModifier {
 @MainActor public protocol HeadingStyle: Sendable {
     /// A view that represents the body of a heading.
     associatedtype Body: View
-
+    
     /// Creates a view that represents the body of a heading.
     ///
     /// The system calls this method for each heading instance in a ``MarkdownView``.
@@ -105,8 +105,8 @@ public struct DefaultHeadingStyle: HeadingStyle {
     }
 }
 
-public extension HeadingStyle where Self == DefaultHeadingStyle {
-    static var `default`: DefaultHeadingStyle {
+extension HeadingStyle where Self == DefaultHeadingStyle {
+    public static var `default`: DefaultHeadingStyle {
         DefaultHeadingStyle()
     }
 }
@@ -132,20 +132,20 @@ public struct DividerHeadingStyle: HeadingStyle {
     }
 }
 
-public extension HeadingStyle where Self == DividerHeadingStyle {
-    static var divider: DividerHeadingStyle {
+extension HeadingStyle where Self == DividerHeadingStyle {
+    public static var divider: DividerHeadingStyle {
         DividerHeadingStyle(upTo: 2)
     }
     
-    static func divider(upTo level: Int) -> DividerHeadingStyle {
+    public static func divider(upTo level: Int) -> DividerHeadingStyle {
         DividerHeadingStyle(upTo: level)
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownHeadingStyle<S>(_ style: S) -> some View where S: HeadingStyle {
+extension View {
+    public func markdownHeadingStyle<S>(_ style: S) -> some View where S: HeadingStyle {
         environment(\.headingStyle, style)
     }
 }

@@ -53,16 +53,16 @@ public struct DefaultThematicBreakStyle: ThematicBreakStyle {
     }
 }
 
-public extension ThematicBreakStyle where Self == DefaultThematicBreakStyle {
-    static var `default`: DefaultThematicBreakStyle {
+extension ThematicBreakStyle where Self == DefaultThematicBreakStyle {
+    public static var `default`: DefaultThematicBreakStyle {
         DefaultThematicBreakStyle()
     }
 }
 
 // MARK: Environment
 
-public extension View {
-    func markdownThematicBreakStyle<S>(_ style: S) -> some View where S: ThematicBreakStyle {
+extension View {
+    public func markdownThematicBreakStyle<S>(_ style: S) -> some View where S: ThematicBreakStyle {
         environment(\.thematicBreakStyle, style)
     }
 }

@@ -15,7 +15,6 @@ public struct MarkdownView: View {
     
     @State private var imageHandler = ImageManager()
     
-    
     /// Creates a ``MarkdownView`` from Markdown content.
     /// - Parameters:
     ///   - markdown: The Markdown content to display.

@@ -15,7 +15,7 @@ struct MarkdownTextRenderer: TextRenderer {
     }
     
     // MARK: - TextRenderer
- 
+    
     func draw(layout: Text.Layout, in context: inout GraphicsContext) {
         for line in layout {
             for run in line {
