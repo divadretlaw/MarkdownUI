@@ -10,13 +10,13 @@ import Markdown
 
 struct HeadingView: View {
     @Environment(\.headingStyle) private var style
-    
+
     let configuration: HeadingConfiguration
-    
+
     init(_ markup: Heading) {
         self.configuration = HeadingConfiguration(markup)
     }
-    
+
     var body: some View {
         AnyView(style.makeBody(configuration: configuration))
     }
@@ -27,17 +27,17 @@ private struct HeadingFont: ViewModifier {
     private var size: CGFloat = 28
     @ScaledMetric(relativeTo: .title)
     private var offset: CGFloat = 2
-    
+
     let level: Int
-    
+
     init(level: Int) {
         self.level = level
     }
-    
+
     func body(content: Content) -> some View {
         content.font(font)
     }
-    
+
     var factor: CGFloat {
         switch level {
         case 1...6:
@@ -46,7 +46,7 @@ private struct HeadingFont: ViewModifier {
             6
         }
     }
-    
+
     var font: Font {
         .system(
             size: size - offset * factor,
@@ -62,14 +62,14 @@ private struct HeadingFont: ViewModifier {
 @MainActor public protocol HeadingStyle: Sendable {
     /// A view that represents the body of a heading.
     associatedtype Body: View
-    
+
     /// Creates a view that represents the body of a heading.
     ///
     /// The system calls this method for each heading instance in a ``MarkdownView``.
     ///
     /// - Parameter configuration: The properties of the heading.
     @ViewBuilder func makeBody(configuration: Configuration) -> Body
-    
+
     /// The properties of the heading.
     typealias Configuration = HeadingConfiguration
 }
@@ -77,15 +77,15 @@ private struct HeadingFont: ViewModifier {
 /// The properties of the heading.
 public struct HeadingConfiguration {
     private let heading: Heading
-    
+
     init(_ heading: Heading) {
         self.heading = heading
     }
-    
+
     @MainActor public var content: some View {
         InlineContainerView(heading)
     }
-    
+
     public var level: Int {
         heading.level
     }
@@ -95,13 +95,13 @@ public struct DefaultHeadingStyle: HeadingStyle {
     /// Required by Swift 5 language mode
     nonisolated init() {
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         configuration.content
             .modifier(HeadingFont(level: configuration.level))
             .bold()
             .padding(.vertical, 8)
-        
+
     }
 }
 
@@ -113,11 +113,11 @@ extension HeadingStyle where Self == DefaultHeadingStyle {
 
 public struct DividerHeadingStyle: HeadingStyle {
     let level: Int
-    
+
     nonisolated init(upTo level: Int) {
         self.level = level
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             configuration.content
@@ -136,7 +136,7 @@ extension HeadingStyle where Self == DividerHeadingStyle {
     public static var divider: DividerHeadingStyle {
         DividerHeadingStyle(upTo: 2)
     }
-    
+
     public static func divider(upTo level: Int) -> DividerHeadingStyle {
         DividerHeadingStyle(upTo: level)
     }
@@ -165,12 +165,12 @@ extension EnvironmentValues {
         #### H4
         ##### H5
         ###### H6
-        
+
         Alternatively, for H1 and H2, an underline-ish style:
-        
+
         Alt-H1
         ======
-        
+
         Alt-H2
         ------
         """
@@ -188,12 +188,12 @@ extension EnvironmentValues {
         #### H4
         ##### H5
         ###### H6
-        
+
         Alternatively, for H1 and H2, an underline-ish style:
-        
+
         Alt-H1
         ======
-        
+
         Alt-H2
         ------
         """

@@ -15,9 +15,9 @@ public enum ListLevel: RawRepresentable, Sendable {
     case indented
     /// All other levels
     case furtherIndented(_ level: Int)
-    
+
     // MARK: - RawRepresentable
-    
+
     public init(rawValue: Int) {
         switch rawValue {
         case 0:
@@ -28,7 +28,7 @@ public enum ListLevel: RawRepresentable, Sendable {
             self = .furtherIndented(rawValue)
         }
     }
-    
+
     public var rawValue: Int {
         switch self {
         case .root:
@@ -39,14 +39,14 @@ public enum ListLevel: RawRepresentable, Sendable {
             value
         }
     }
-    
+
     // MARK: - Helper
-    
+
     /// Check if this level represents the root of the list
     public var isRoot: Bool {
         self == .root
     }
-    
+
     func next() -> Self {
         ListLevel(rawValue: rawValue + 1)
     }

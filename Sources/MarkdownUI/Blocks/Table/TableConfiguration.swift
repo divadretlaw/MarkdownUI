@@ -13,15 +13,15 @@ import SwiftUI
 public struct TableConfiguration {
     /// The cells of the table header
     public let head: [Cell]
-    
+
     /// The rows of the table
     public let body: [Row]
-    
+
     init(head: [Cell], body: [Row]) {
         self.head = head
         self.body = body
     }
-    
+
     init(from table: Markdown.Table) {
         let head = table.head.children
             .compactMap { $0 as? Markdown.Table.Cell }
@@ -29,7 +29,7 @@ public struct TableConfiguration {
             .map { index, cell in
                 Cell(cell, alignment: table.columnAlignments[index])
             }
-        
+
         let body = table.body.children
             .compactMap { row in
                 let cells = row.children
@@ -40,10 +40,10 @@ public struct TableConfiguration {
                     }
                 return Row(cells)
             }
-        
+
         self.init(head: head, body: body)
     }
-    
+
     /// Number of columns in the table
     public var count: Int {
         head.count

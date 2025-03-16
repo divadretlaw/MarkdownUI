@@ -10,13 +10,13 @@ import Markdown
 
 struct BlockQuoteView: View {
     @Environment(\.blockQuoteStyle) private var style
-    
+
     let configuration: BlockQuoteConfiguration
-    
+
     init(_ markup: BlockQuote) {
         self.configuration = BlockQuoteConfiguration(markup)
     }
-    
+
     var body: some View {
         AnyView(style.makeBody(configuration: configuration))
     }
@@ -28,14 +28,14 @@ struct BlockQuoteView: View {
 @MainActor public protocol BlockQuoteStyle: Sendable {
     /// A view that represents the body of a block quote.
     associatedtype Body: View
-    
+
     /// Creates a view that represents the body of a block quote.
     ///
     /// The system calls this method for each block quote instance in a ``MarkdownView``.
     ///
     /// - Parameter configuration: The properties of the block quote.
     @ViewBuilder func makeBody(configuration: Configuration) -> Body
-    
+
     /// The properties of the block quote.
     typealias Configuration = BlockQuoteConfiguration
 }
@@ -43,11 +43,11 @@ struct BlockQuoteView: View {
 /// The properties of the block quote.
 public struct BlockQuoteConfiguration {
     private let quote: BlockQuote
-    
+
     init(_ quote: BlockQuote) {
         self.quote = quote
     }
-    
+
     @MainActor public var content: some View {
         MarkupView(quote)
     }
@@ -57,7 +57,7 @@ public struct DefaultBlockQuoteStyle: BlockQuoteStyle {
     /// Required by Swift 5 language mode
     nonisolated init() {
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading) {
             configuration.content
@@ -99,11 +99,11 @@ extension EnvironmentValues {
         """
         > Blockquotes are very handy in email to emulate reply text.
         > This line is part of the same quote.
-        
+
         Quote break.
-        
-        > This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
-        
+
+        > This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote.
+
         > This quote has a quote inside
         >> I'm a quote
         >>

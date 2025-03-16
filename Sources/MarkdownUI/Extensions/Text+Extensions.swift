@@ -22,7 +22,7 @@ extension Text {
                 ),
                 baseURL: nil
             )
-            
+
             if let url {
                 var container = AttributeContainer()
                 container.link = url
@@ -35,7 +35,7 @@ extension Text {
             self = Text(verbatim: markdown)
         }
     }
-    
+
     init(image: PlatformImage?) {
         if let image {
             self = Text(image: image)
@@ -43,7 +43,7 @@ extension Text {
             self = Text("\(Image(systemName: "photo.badge.arrow.down").symbolRenderingMode(.multicolor))")
         }
     }
-    
+
     private init(image: PlatformImage) {
         #if canImport(UIKit)
         self = Text("\(Image(uiImage: image))")

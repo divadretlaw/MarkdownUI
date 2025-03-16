@@ -10,11 +10,11 @@ import Markdown
 
 struct UnorderedListView: View {
     let markup: UnorderedList
-    
+
     init(_ markup: UnorderedList) {
         self.markup = markup
     }
-    
+
     var body: some View {
         ListItemContainerView(markup)
     }
@@ -26,14 +26,14 @@ struct UnorderedListView: View {
 @MainActor public protocol UnorderedListIndicatorStyle: Sendable {
     /// A view that represents the body of a unordered list.
     associatedtype Body: View
-    
+
     /// Creates a view that represents the body of a unordered list.
     ///
     /// The system calls this method for each list instance in a ``MarkdownView``.
     ///
     /// - Parameter configuration: The properties of the unordered list.
     @ViewBuilder func makeBody(configuration: Configuration) -> Body
-    
+
     /// The properties of the unordered list.
     typealias Configuration = ListIndicatorConfiguration
 }
@@ -42,7 +42,7 @@ public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
     /// Required by Swift 5 language mode
     nonisolated init() {
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             switch configuration.level {
@@ -56,7 +56,7 @@ public struct DefaultUnorderedListIndicatorStyle: UnorderedListIndicatorStyle {
                 Text("▪")
                     .monospaced()
             }
-            
+
             if let checked = configuration.checked {
                 switch checked {
                 case .checked:
@@ -94,9 +94,9 @@ extension EnvironmentValues {
         * Unordered list can use asterisks
         - Or minuses
         + Or pluses
-        
+
         ---
-        
+
         * [x] Checked
         * [ ] Not checked
         """
@@ -123,7 +123,7 @@ extension EnvironmentValues {
     MarkdownView {
         """
         *   A list item with a blockquote:
-        
+
             > This is a blockquote
             > inside a list item.
         """

@@ -16,19 +16,19 @@ extension TableConfiguration {
         private let wrappedValue: Markdown.Table.Cell
         /// The preferred column alignment of the cell
         public let columnAlignment: Markdown.Table.ColumnAlignment?
-        
+
         init(_ wrappedValue: Markdown.Table.Cell, alignment: Markdown.Table.ColumnAlignment?) {
             self.wrappedValue = wrappedValue
             self.columnAlignment = alignment ?? .center
         }
-        
+
         // MARK: - SwiftUI
-        
+
         /// The content the cell is displaying
         @MainActor public var content: some View {
             InlineContainerView(wrappedValue)
         }
-        
+
         /// The preferred horizontal alignment of the cell
         public var horizontalAlignment: HorizontalAlignment? {
             switch columnAlignment {
@@ -42,7 +42,7 @@ extension TableConfiguration {
                 return nil
             }
         }
-        
+
         /// The preferred alignment of the cell
         public var alignment: Alignment? {
             switch columnAlignment {

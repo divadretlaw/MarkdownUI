@@ -10,13 +10,13 @@ import Markdown
 
 struct CodeBlockView: View {
     @Environment(\.codeBlockStyle) private var style
-    
+
     let configuration: CodeBlockConfiguration
-    
+
     init(_ markup: CodeBlock) {
         self.configuration = CodeBlockConfiguration(markup)
     }
-    
+
     var body: some View {
         AnyView(style.makeBody(configuration: configuration))
     }
@@ -28,14 +28,14 @@ struct CodeBlockView: View {
 @MainActor public protocol CodeBlockStyle: Sendable {
     /// A view that represents the body of a code block.
     associatedtype Body: View
-    
+
     /// Creates a view that represents the body of a code block.
     ///
     /// The system calls this method for each code block instance in a ``MarkdownView``.
     ///
     /// - Parameter configuration: The properties of the code block.
     @ViewBuilder func makeBody(configuration: Configuration) -> Body
-    
+
     /// The properties of the code block.
     typealias Configuration = CodeBlockConfiguration
 }
@@ -43,18 +43,18 @@ struct CodeBlockView: View {
 /// The properties of the code block.
 public struct CodeBlockConfiguration {
     private let codeBlock: CodeBlock
-    
+
     init(_ codeBlock: CodeBlock) {
         self.codeBlock = codeBlock
     }
-    
+
     public var code: String {
         guard codeBlock.code.hasSuffix("\n") else {
             return codeBlock.code
         }
         return String(codeBlock.code.dropLast())
     }
-    
+
     public var language: String? {
         codeBlock.language
     }
@@ -64,7 +64,7 @@ public struct DefaultCodeBlockStyle: CodeBlockStyle {
     /// Required by Swift 5 language mode
     nonisolated init() {
     }
-    
+
     public func makeBody(configuration: Configuration) -> some View {
         #if os(watchOS) || os(tvOS)
         VStack {
@@ -114,14 +114,14 @@ extension EnvironmentValues {
         var s = "JavaScript syntax highlighting";
         alert(s);
         ```
-         
+
         ```python
         s = "Python syntax highlighting"
         print s
         ```
-         
+
         ```
-        No language indicated, so no syntax highlighting. 
+        No language indicated, so no syntax highlighting.
         But let's throw in a <b>tag</b>.
         ```
         """

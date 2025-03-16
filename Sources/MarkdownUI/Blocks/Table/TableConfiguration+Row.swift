@@ -13,7 +13,7 @@ extension TableConfiguration {
         public let id = UUID()
         /// The cells of the row
         public let cells: [Cell]
-        
+
         init(_ cells: [Cell]) {
             self.cells = cells
         }

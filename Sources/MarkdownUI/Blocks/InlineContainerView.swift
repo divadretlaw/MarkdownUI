@@ -12,13 +12,13 @@ import Nuke
 struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
     @Environment(ImageManager.self) var imageManager
-    
+
     let markup: InlineContainer
-    
+
     init(_ markup: InlineContainer) {
         self.markup = markup
     }
-    
+
     var body: some View {
         if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             render(children: markup.inlineChildren)
@@ -27,7 +27,7 @@ struct InlineContainerView: View {
             render(children: markup.inlineChildren)
         }
     }
-    
+
     func render(children: LazyMapSequence<MarkupChildren, InlineMarkup>) -> SwiftUI.Text {
         children
             .compactMap { markup in
@@ -76,11 +76,11 @@ struct InlineContainerView: View {
     MarkdownView {
         """
         Emphasis, aka italics, with *asterisks* or _underscores_.
-        
+
         Strong emphasis, aka bold, with **asterisks** or __underscores__.
-        
+
         Combined emphasis with **asterisks and _underscores_**.
-        
+
         Strikethrough uses two tildes. ~~Scratch this.~~
         """
     }
@@ -91,23 +91,23 @@ struct InlineContainerView: View {
     MarkdownView {
         """
         [I'm an inline-style link](https://www.google.com)
-        
+
         [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
-        
+
         [I'm a reference-style link][Arbitrary case-insensitive reference text]
-        
+
         [I'm a relative reference to a repository file](../blob/master/LICENSE)
-        
+
         [You can use numbers for reference-style link definitions][1]
-        
+
         Or leave it empty and use the [link text itself].
-        
-        URLs and URLs in angle brackets will automatically get turned into links. 
-        http://www.example.com or <http://www.example.com> and sometimes 
+
+        URLs and URLs in angle brackets will automatically get turned into links.
+        http://www.example.com or <http://www.example.com> and sometimes
         example.com (but not on Github, for example).
-        
+
         Some text to show that the reference links can follow later.
-        
+
         [arbitrary case-insensitive reference text]: https://www.mozilla.org
         [1]: http://slashdot.org
         [link text itself]: http://www.reddit.com
@@ -129,17 +129,17 @@ struct InlineContainerView: View {
     MarkdownView {
         """
         ![](https://dummyimage.com/64x64/0A6FFF/fff&text=A)
-        
+
         Here's our logo (hover to see the title text):
-        
+
         Inline-style:
         ![alt text](https://dummyimage.com/64x64/0A6FFF/fff&text=A "Logo Title Text 1")
-        
+
         Reference-style:
         ![alt text][logo]
-        
+
         [logo]: https://dummyimage.com/64x64/0A6FFF/fff&text=A "Logo Title Text 2"
-                
+
         - ![Invalid url](invalid)
         - ![Not an image](https://davidwalter.at)
         - ![Invalid response](https://eu.httpbin.org/status/400)

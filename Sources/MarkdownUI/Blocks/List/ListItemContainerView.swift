@@ -13,13 +13,13 @@ struct ListItemContainerView: View {
     @Environment(\.listLevel) private var listLevel
     @Environment(\.orderedListIndicatorStyle) private var orderedStyle
     @Environment(\.unorderedListIndicatorStyle) private var unorderedStyle
-    
+
     let list: ListItemContainer
-    
+
     init(_ list: ListItemContainer) {
         self.list = list
     }
-    
+
     var body: some View {
         Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: nil) {
             MarkupIterator(list) { index, child in
@@ -51,7 +51,7 @@ struct ListItemContainerView: View {
                         }
                     }
                     .gridColumnAlignment(.trailing)
-                    
+
                     Group {
                         if let markup = child as? InlineContainer {
                             InlineContainerView(markup)
@@ -77,14 +77,14 @@ public struct ListIndicatorConfiguration {
     public let checked: Checkbox?
     public let startIndex: UInt
     public let level: ListLevel
-    
+
     init(index: Int, startIndex: UInt, level: ListLevel, checked: Checkbox?) {
         self.index = index
         self.startIndex = startIndex
         self.level = level
         self.checked = checked
     }
-    
+
     /// The value of the index to display
     public var displayIndex: Int {
         Int(startIndex) + index

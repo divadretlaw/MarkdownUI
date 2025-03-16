@@ -17,27 +17,27 @@ import OSLog
         case noURL
         case failure
     }
-    
+
     enum State: Equatable {
         case loading(ImageTask)
         case failed
     }
-    
+
     private(set) var requests: [URL: State]
     private let pipeline: ImagePipeline
-    
+
     init(pipeline: ImagePipeline = .shared) {
         self.pipeline = pipeline
         self.requests = [:]
     }
-    
+
     func image(for url: URL?, scale: CGFloat) -> Result<PlatformImage?, Error> {
         guard let url else {
             return .failure(.noURL)
         }
-        
+
         let request = ImageRequest(url: url, processors: [.scale(scale)])
-        
+
         if let response = pipeline.cache[request] {
             // Request already cached
             return .success(response.image)
@@ -72,11 +72,11 @@ import OSLog
 extension ImageProcessors {
     fileprivate struct Scale: ImageProcessing {
         var scale: CGFloat
-        
+
         func process(_ image: PlatformImage) -> PlatformImage? {
             image.scalePreservingAspectRatio(scale: scale)
         }
-        
+
         func process(_ container: ImageContainer, context: ImageProcessingContext) throws -> ImageContainer {
             guard container.type != nil else {
                 return container
@@ -88,11 +88,11 @@ extension ImageProcessors {
             container.image = output
             return container
         }
-        
+
         var identifier: String {
             "at.davidwalter.markdown/scale?s=\(scale)"
         }
-        
+
         var description: String {
             "Scale(scale: \(scale))"
         }
