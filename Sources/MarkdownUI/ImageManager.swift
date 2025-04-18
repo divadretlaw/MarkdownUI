@@ -12,7 +12,7 @@ import Markdown
 import OSLog
 
 @Observable
-@MainActor final class ImageManager {
+@MainActor final class ImageManager: Sendable {
     enum Error: Swift.Error {
         case noURL
         case failure

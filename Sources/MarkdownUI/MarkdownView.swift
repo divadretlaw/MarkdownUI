@@ -13,7 +13,7 @@ public struct MarkdownView: View {
     let document: Document
     let spacing: CGFloat?
 
-    @State private var imageHandler = ImageManager()
+    @State private var imageManager = ImageManager()
 
     /// Creates a ``MarkdownView`` from Markdown content.
     /// - Parameters:
@@ -51,7 +51,7 @@ public struct MarkdownView: View {
         .monospaced(false)
         // Set environment
         .environment(\.lineSpacing, spacing)
-        .environment(imageHandler)
+        .environment(imageManager)
     }
 }
 
