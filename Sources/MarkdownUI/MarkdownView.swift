@@ -38,7 +38,7 @@ public struct MarkdownView: View {
     }
 
     public var body: some View {
-        LazyVStack(alignment: .leading, spacing: spacing) {
+        VStack(alignment: .leading, spacing: spacing) {
             MarkupView(document)
         }
         // Reset font
