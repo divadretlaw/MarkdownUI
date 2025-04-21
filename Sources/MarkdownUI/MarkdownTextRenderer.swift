@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MarkdownTextRenderer: TextRenderer {
-    let inlineCode: MarkdownInlineCode?
+    let inlineCode: MarkdownInlineCode
 
-    init(inlineCode: MarkdownInlineCode?) {
+    init(inlineCode: MarkdownInlineCode) {
         self.inlineCode = inlineCode
     }
 
@@ -18,21 +18,41 @@ struct MarkdownTextRenderer: TextRenderer {
 
     func draw(layout: Text.Layout, in context: inout GraphicsContext) {
         for line in layout {
+            var inlineRuns: [Text.Layout.Line.Element] = []
+            defer {
+                drawInlineRuns(&inlineRuns, in: context)
+            }
+
             for run in line {
-                if run[InlineCodeAttribute.self] != nil, let inlineCode {
-                    let copy = context
-
-                    let rect = run.typographicBounds.rect.insetBy(dx: -1.5, dy: -0.5)
-
-                    let shape = inlineCode.shape
-                        .path(in: rect)
-
-                    copy.fill(shape, with: .style(inlineCode.background))
-                    copy.draw(run)
+                if run[InlineCodeAttribute.self] != nil {
+                    inlineRuns.append(run)
                 } else {
+                    drawInlineRuns(&inlineRuns, in: context)
                     context.draw(run)
                 }
             }
+        }
+    }
+
+    private func drawInlineRuns(_ runs: inout [Text.Layout.Line.Element], in context: GraphicsContext) {
+        defer {
+            runs = []
+        }
+
+        guard
+            !runs.isEmpty,
+            let rect = runs.map(\.typographicBounds.rect).joinedWidth()
+        else {
+            return
+        }
+
+        let shape = inlineCode.shape
+            .path(in: rect)
+
+        context.fill(shape, with: .style(inlineCode.background))
+
+        for run in runs {
+            context.draw(run)
         }
     }
 }
@@ -46,6 +66,8 @@ struct InlineCodeAttribute: TextAttribute {
         Regular text
         
         Inline `Hello World`.
+        
+        `prefix` `postfix`
         """
     }
     .markdownInlineCodeStyle(.tint)

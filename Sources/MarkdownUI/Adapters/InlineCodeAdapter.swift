@@ -68,7 +68,7 @@ struct MarkdownInlineCode: Sendable {
     ) where S: ShapeStyle {
         self.foreground = foreground
         self.background = foreground.opacity(0.2)
-        self.shape = RoundedRectangle(cornerRadius: 5, style: .continuous)
+        self.shape = RoundedRectangle(cornerRadius: 4, style: .continuous)
     }
 
     init<S1, S2>(
@@ -77,7 +77,7 @@ struct MarkdownInlineCode: Sendable {
     ) where S1: ShapeStyle, S2: ShapeStyle {
         self.foreground = foreground
         self.background = background
-        self.shape = RoundedRectangle(cornerRadius: 5, style: .continuous)
+        self.shape = RoundedRectangle(cornerRadius: 4, style: .continuous)
     }
 
     init<S1, S2, S3>(
