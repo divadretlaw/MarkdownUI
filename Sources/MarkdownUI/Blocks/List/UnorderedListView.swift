@@ -23,41 +23,9 @@ struct UnorderedListView: View {
 #Preview {
     MarkdownView {
         """
-        * Unordered list can use asterisks
-        - Or minuses
-        + Or pluses
-
-        ---
-
-        * [x] Checked
-        * [ ] Not checked
-        """
-    }
-    .padding()
-}
-
-#Preview {
-    MarkdownView {
-        """
-        * First
-        * Test
-        * Test
-            * Second
-                * Third
-                    * Fourth
-                        * Fith
-        """
-    }
-    .padding()
-}
-
-#Preview {
-    MarkdownView {
-        """
-        *   A list item with a blockquote:
-
-            > This is a blockquote
-            > inside a list item.
+        * One
+        * Two
+        * Three
         """
     }
     .padding()

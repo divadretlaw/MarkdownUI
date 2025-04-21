@@ -46,18 +46,37 @@ extension UnorderedListIndicatorStyle where Self == DefaultUnorderedListIndicato
 }
 
 #Preview {
-    MarkdownView {
-        """
-        * Unordered list can use asterisks
-        - Or minuses
-        + Or pluses
-        
-        ---
-        
-        * [x] Checked
-        * [ ] Not checked
-        """
+    ScrollView {
+        MarkdownView {
+            """
+            * Unordered list can use asterisks
+            - Or minuses
+            + Or pluses
+            
+            ---
+            
+            * [x] Checked
+            * [ ] Not checked
+            
+            ---
+            
+            * First
+            * Test
+            * Test
+                * Second
+                    * Third
+                        * Fourth
+                            * Fith
+            
+            ---
+            
+            * A list item with a blockquote:
+            
+              > This is a blockquote
+              > inside a list item.
+            """
+        }
+        .markdownUnorderedListIndicatorStyle(.default)
+        .padding()
     }
-    .markdownUnorderedListIndicatorStyle(.default)
-    .padding()
 }

@@ -37,22 +37,46 @@ extension OrderedListIndicatorStyle where Self == DefaultOrderedListIndicatorSty
 }
 
 #Preview {
-    MarkdownView {
-        """
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        1. Test
-        """
+    ScrollView {
+        MarkdownView {
+            """
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            1. Test
+            
+            ---
+            
+            1. [x] Checked
+            2. [ ] Not checked
+            
+            ---
+            
+            1. First
+            1. Test
+            1. Test
+                1. Second
+                    1. Third
+                        1. Fourth
+                            1. Fith
+            
+            ---
+            
+            1. A list item with a blockquote:
+            
+               > This is a blockquote
+               > inside a list item.
+            """
+        }
+        .markdownOrderedListIndicatorStyle(.default)
+        .padding()
     }
-    .markdownOrderedListIndicatorStyle(.default)
-    .padding()
 }

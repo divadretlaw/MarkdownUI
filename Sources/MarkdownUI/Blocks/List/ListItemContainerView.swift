@@ -21,7 +21,7 @@ struct ListItemContainerView: View {
     }
 
     var body: some View {
-        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: nil) {
+        Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 8, verticalSpacing: lineSpacing) {
             MarkupIterator(list) { index, child in
                 GridRow {
                     Group {

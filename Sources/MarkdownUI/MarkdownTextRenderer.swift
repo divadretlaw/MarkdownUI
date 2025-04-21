@@ -39,3 +39,14 @@ struct MarkdownTextRenderer: TextRenderer {
 
 struct InlineCodeAttribute: TextAttribute {
 }
+
+#Preview {
+    MarkdownView {
+        """
+        Regular text
+        
+        Inline `code`.
+        """
+    }
+    .padding()
+}
