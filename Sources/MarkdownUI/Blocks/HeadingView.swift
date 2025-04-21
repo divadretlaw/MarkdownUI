@@ -19,40 +19,7 @@ struct HeadingView: View {
 
     var body: some View {
         AnyView(style.makeBody(configuration: configuration))
-    }
-}
-
-private struct HeadingFont: ViewModifier {
-    @ScaledMetric(relativeTo: .body)
-    private var size: CGFloat = 28
-    @ScaledMetric(relativeTo: .title)
-    private var offset: CGFloat = 2
-
-    let level: Int
-
-    init(level: Int) {
-        self.level = level
-    }
-
-    func body(content: Content) -> some View {
-        content.font(font)
-    }
-
-    var factor: CGFloat {
-        switch level {
-        case 1...6:
-            CGFloat(level - 1)
-        default:
-            6
-        }
-    }
-
-    var font: Font {
-        .system(
-            size: size - offset * factor,
-            weight: .semibold,
-            design: nil
-        )
+            .markdownFont(.heading(configuration.level))
     }
 }
 
@@ -98,8 +65,6 @@ public struct DefaultHeadingStyle: HeadingStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         configuration.content
-            .modifier(HeadingFont(level: configuration.level))
-            .bold()
             .padding(.vertical, 8)
 
     }
@@ -121,8 +86,6 @@ public struct DividerHeadingStyle: HeadingStyle {
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             configuration.content
-                .modifier(HeadingFont(level: configuration.level))
-                .bold()
                 .padding(.vertical, 8)
             if configuration.level <= level {
                 Divider()

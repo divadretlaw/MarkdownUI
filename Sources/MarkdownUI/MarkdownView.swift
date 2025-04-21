@@ -10,6 +10,8 @@ import Markdown
 
 /// A view that displays one or more lines of read-only Markdown.
 public struct MarkdownView: View {
+    @Environment(\.markdownFonts) private var fonts
+
     let document: Document
     let spacing: CGFloat?
 
@@ -41,6 +43,7 @@ public struct MarkdownView: View {
         VStack(alignment: .leading, spacing: spacing) {
             MarkupView(document)
         }
+        .markdownFont(.body)
         // Reset font
         .font(nil)
         .fontDesign(nil)

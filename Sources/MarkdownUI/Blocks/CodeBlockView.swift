@@ -13,6 +13,7 @@ import HighlightUI
 #endif
 
 struct CodeBlockView: View {
+    @Environment(\.markdownFonts) private var fonts
     @Environment(\.codeBlockStyle) private var style
 
     let configuration: CodeBlockConfiguration
@@ -23,6 +24,7 @@ struct CodeBlockView: View {
 
     var body: some View {
         AnyView(style.makeBody(configuration: configuration))
+            .markdownFont(.code)
     }
 }
 
@@ -76,12 +78,10 @@ public struct DefaultCodeBlockStyle: CodeBlockStyle {
     public func makeBody(configuration: Configuration) -> some View {
         #if !os(watchOS)
         CodeBox(configuration.code, language: language(configuration: configuration))
-            .font(.callout)
             .codeStyle(DefaultCodeBlockStyle.codeStyle)
         #else
         VStack {
             Text(configuration.code)
-                .font(.caption)
                 .monospaced()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
