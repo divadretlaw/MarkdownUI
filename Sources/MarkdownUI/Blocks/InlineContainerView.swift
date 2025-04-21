@@ -21,12 +21,8 @@ struct InlineContainerView: View {
     }
 
     var body: some View {
-        if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-            render(children: markup.inlineChildren)
-                .textRenderer(MarkdownTextRenderer(inlineCode: inlineCode))
-        } else {
-            render(children: markup.inlineChildren)
-        }
+        render(children: markup.inlineChildren)
+            .withRenderer(MarkdownTextRenderer(inlineCode: inlineCode))
     }
 
     func render(children: LazyMapSequence<MarkupChildren, InlineMarkup>) -> SwiftUI.Text {
@@ -40,7 +36,8 @@ struct InlineContainerView: View {
                 case let value as Markdown.LineBreak:
                     return SwiftUI.Text(verbatim: value.plainText)
                 case let value as Markdown.InlineCode:
-                    return SwiftUI.Text(verbatim: value.code).monospaced()
+                    return SwiftUI.Text(verbatim: value.code)
+                        .monospaced()
                         .foregroundStyle(inlineCode.foreground)
                         .customAttribute(InlineCodeAttribute())
                 case let value as Markdown.Strong:

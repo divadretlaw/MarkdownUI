@@ -22,7 +22,7 @@ struct MarkdownTextRenderer: TextRenderer {
                 if run[InlineCodeAttribute.self] != nil, let inlineCode {
                     let copy = context
 
-                    let rect = run.typographicBounds.rect.insetBy(dx: -2, dy: 0)
+                    let rect = run.typographicBounds.rect.insetBy(dx: -1.5, dy: -0.5)
 
                     let shape = inlineCode.shape
                         .path(in: rect)
@@ -40,13 +40,14 @@ struct MarkdownTextRenderer: TextRenderer {
 struct InlineCodeAttribute: TextAttribute {
 }
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
     MarkdownView {
         """
         Regular text
         
-        Inline `code`.
+        Inline `Hello World`.
         """
     }
+    .markdownInlineCodeStyle(.tint)
     .padding()
 }
