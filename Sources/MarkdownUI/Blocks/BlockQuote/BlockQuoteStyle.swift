@@ -41,6 +41,9 @@ public struct BlockQuoteConfiguration {
 // MARK: - API
 
 extension View {
+    /// Sets the style for block quotes within this view.
+    ///
+    /// - Parameter style: The block quote style to use for this view.
     public func markdownBlockQuoteStyle<S>(_ style: S) -> some View where S: BlockQuoteStyle {
         environment(\.blockQuoteStyle, style)
     }

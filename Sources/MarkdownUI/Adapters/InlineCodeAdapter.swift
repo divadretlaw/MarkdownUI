@@ -10,6 +10,11 @@ import SwiftUI
 // MARK: - Public
 
 extension View {
+    /// Sets the inline code appearance within this view
+    ///
+    /// - Parameter style: The foreground style of the text
+    ///
+    /// The background style will be the style with 20% opacity inside a rounded rectangle
     public func markdownInlineCodeStyle<S>(
         _ style: S
     ) -> some View where S: ShapeStyle {
@@ -18,6 +23,13 @@ extension View {
         )
     }
 
+    /// Sets the inline code appearance within this view
+    ///
+    /// - Parameters:
+    ///   - foreground: The foreground style of the text.
+    ///   - background: The background style of the text.
+    ///
+    /// The styles will inside a rounded rectangle
     public func markdownInlineCodeStyle<S1, S2>(
         _ foreground: S1,
         _ background: S2
@@ -26,7 +38,13 @@ extension View {
             \.markdownInlineCode, MarkdownInlineCode(foreground: foreground, background: background)
         )
     }
-
+    
+    /// Sets the inline code appearance within this view
+    ///
+    /// - Parameters:
+    ///   - foreground: The foreground style of the text.
+    ///   - background: The background style of the text.
+    ///   - shape: The background shape of the text.
     public func markdownInlineCodeStyle<S1, S2, S3>(
         _ foreground: S1,
         _ background: S2,

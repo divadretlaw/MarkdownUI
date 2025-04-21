@@ -28,6 +28,9 @@ import SwiftUI
 // MARK: - API
 
 extension View {
+    /// Sets the style for ordered list indicators within this view.
+    ///
+    /// - Parameter style: The ordered list indicator style to use for this view.
     public func markdownOrderedListIndicatorStyle<S>(_ style: S) -> some View where S: OrderedListIndicatorStyle {
         environment(\.orderedListIndicatorStyle, style)
     }

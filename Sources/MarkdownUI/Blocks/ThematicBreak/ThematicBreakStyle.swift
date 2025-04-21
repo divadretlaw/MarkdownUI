@@ -31,6 +31,9 @@ public struct ThematicBreakConfiguration {}
 // MARK: - API
 
 extension View {
+    /// Sets the style for thematic breaks within this view.
+    ///
+    /// - Parameter style: The thematic break style to use for this view.
     public func markdownThematicBreakStyle<S>(_ style: S) -> some View where S: ThematicBreakStyle {
         environment(\.thematicBreakStyle, style)
     }

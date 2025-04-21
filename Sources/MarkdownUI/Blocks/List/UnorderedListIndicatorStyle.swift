@@ -28,6 +28,9 @@ import SwiftUI
 // MARK: - API
 
 extension View {
+    /// Sets the style for unordered list indicators within this view.
+    ///
+    /// - Parameter style: The unordered list indicator style to use for this view.
     public func markdownUnorderedListIndicatorStyle<S>(_ style: S) -> some View where S: UnorderedListIndicatorStyle {
         environment(\.unorderedListIndicatorStyle, style)
     }

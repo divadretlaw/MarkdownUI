@@ -46,6 +46,9 @@ public struct HeadingConfiguration {
 // MARK: - API
 
 extension View {
+    /// Sets the style for headings within this view.
+    ///
+    /// - Parameter style: The headings style to use for this view.
     public func markdownHeadingStyle<S>(_ style: S) -> some View where S: HeadingStyle {
         environment(\.headingStyle, style)
     }

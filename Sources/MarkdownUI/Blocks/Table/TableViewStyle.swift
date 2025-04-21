@@ -28,6 +28,9 @@ import SwiftUI
 // MARK: - API
 
 extension View {
+    /// Sets the style for tables within this view.
+    ///
+    /// - Parameter style: The table style to use for this view.
     public func markdownTableStyle<S>(_ style: S) -> some View where S: TableStyle {
         environment(\.tableStyle, style)
     }

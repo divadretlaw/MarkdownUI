@@ -49,6 +49,9 @@ public struct CodeBlockConfiguration {
 // MARK: - API
 
 extension View {
+    /// Sets the style for code blocks within this view.
+    ///
+    /// - Parameter style: The code block style to use for this view.
     public func markdownCodeBlockStyle<S>(_ style: S) -> some View where S: CodeBlockStyle {
         environment(\.codeBlockStyle, style)
     }
