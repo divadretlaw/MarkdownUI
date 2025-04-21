@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct MarkdownTextRenderer: TextRenderer {
-    init() {
+    let inlineCode: MarkdownInlineCode?
+
+    init(inlineCode: MarkdownInlineCode?) {
+        self.inlineCode = inlineCode
     }
 
     // MARK: - TextRenderer
@@ -16,15 +19,15 @@ struct MarkdownTextRenderer: TextRenderer {
     func draw(layout: Text.Layout, in context: inout GraphicsContext) {
         for line in layout {
             for run in line {
-                if run[InlineCodeAttribute.self] != nil {
+                if run[InlineCodeAttribute.self] != nil, let inlineCode {
                     let copy = context
 
                     let rect = run.typographicBounds.rect.insetBy(dx: -2, dy: 0)
 
-                    let shape = RoundedRectangle(cornerRadius: 5, style: .continuous)
+                    let shape = inlineCode.shape
                         .path(in: rect)
 
-                    copy.fill(shape, with: .style(.fill.opacity(0.8)))
+                    copy.fill(shape, with: .style(inlineCode.background))
                     copy.draw(run)
                 } else {
                     context.draw(run)

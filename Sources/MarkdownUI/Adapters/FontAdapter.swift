@@ -39,11 +39,11 @@ extension EnvironmentValues {
 
 extension View {
     func markdownFont(_ type: MarkdownFontType) -> some View {
-        modifier(FontApplier(type: type))
+        modifier(FontAdapter(type: type))
     }
 }
 
-private struct FontApplier: ViewModifier {
+private struct FontAdapter: ViewModifier {
     @Environment(\.markdownFonts) private var fonts
 
     @ScaledMetric(relativeTo: .body)
