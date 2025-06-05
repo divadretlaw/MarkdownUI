@@ -12,6 +12,7 @@ import Nuke
 struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
     @Environment(\.markdownInlineCode) private var inlineCode
+    @Environment(\.markdownImageMode) private var imageMode
     @Environment(ImageManager.self) var imageManager
 
     let markup: InlineContainer
@@ -47,12 +48,7 @@ struct InlineContainerView: View {
                 case let value as Markdown.Strikethrough:
                     return render(children: value.inlineChildren).strikethrough()
                 case let value as Markdown.Image:
-                    switch imageManager.image(for: value, scale: scale) {
-                    case let .success(image):
-                        return SwiftUI.Text(image: image)
-                    case .failure:
-                        return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
-                    }
+                    return render(image: value)
                 case let value as Markdown.Link:
                     if let destination = value.destination {
                         // Known Issue: AttributedString doesn't render images
@@ -68,6 +64,26 @@ struct InlineContainerView: View {
                 }
             }
             .joined()
+    }
+
+    private func render(image: Markdown.Image) -> SwiftUI.Text? {
+        switch imageMode {
+        case .render:
+            switch imageManager.image(for: image, scale: scale) {
+            case let .success(image):
+                return SwiftUI.Text(image: image)
+            case .failure:
+                return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
+            }
+        case .replaceWithImage(let image):
+            return SwiftUI.Text("\(image)")
+        case .replaceWithText:
+            if let title = image.title {
+                return SwiftUI.Text(title)
+            } else {
+                return SwiftUI.Text(image.plainText)
+            }
+        }
     }
 }
 
@@ -144,5 +160,6 @@ struct InlineContainerView: View {
         - ![Invalid response](https://eu.httpbin.org/status/400)
         """
     }
+    .markdownImageMode(.replaceWithSymbol(systemName: "iphone"))
     .padding()
 }
