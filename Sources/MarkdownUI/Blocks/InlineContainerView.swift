@@ -52,10 +52,9 @@ struct InlineContainerView: View {
                 case let value as Markdown.Link:
                     if let destination = value.destination {
                         // Known Issue: AttributedString doesn't render images
-                        let markdown = value.format(options: .init(condenseAutolinks: false))
-                        return SwiftUI.Text(markdown: markdown, url: URL(string: destination))
+                        return SwiftUI.Text(markdown: value.plainText, url: URL(string: destination))
                     } else {
-                        return SwiftUI.Text(verbatim: value.plainText)
+                        return SwiftUI.Text(markdown: value.plainText)
                     }
                 default:
                     let markdown = markup.format()
