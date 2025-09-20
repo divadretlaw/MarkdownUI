@@ -12,6 +12,8 @@ struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
     @Environment(\.markdownInlineCode) private var inlineCode
     @Environment(\.markdownImageMode) private var imageMode
+    @Environment(\.markdownImageScale) private var imageScale
+    @Environment(\.markdownViewWidth) private var viewWidth
     @Environment(ImageManager.self) var imageManager
 
     let markup: InlineContainer
@@ -67,9 +69,9 @@ struct InlineContainerView: View {
     private func render(image: Markdown.Image) -> SwiftUI.Text? {
         switch imageMode {
         case .render:
-            switch imageManager.image(for: image, scale: scale) {
+            switch imageManager.image(for: image) {
             case let .success(image):
-                return SwiftUI.Text(image: image)
+                return scale(image: image)
             case .failure:
                 return SwiftUI.Text("\(Image(systemName: "photo.badge.exclamationmark").symbolRenderingMode(.multicolor))")
             }
@@ -82,6 +84,21 @@ struct InlineContainerView: View {
                 return SwiftUI.Text(image.plainText)
             }
         }
+    }
+
+    private func scale(image: PlatformImage?) -> SwiftUI.Text? {
+        let scaledImage = if imageScale.contains(.display) {
+            image?.scalePreservingAspectRatio(scale: scale)
+        } else {
+            image
+        }
+        let resizedImage = if let viewWidth, imageScale.contains(.scaledToFit) {
+            scaledImage?.resizePreservingAspectRatio(maxWidth: viewWidth)
+        } else {
+            scaledImage
+
+        }
+        return SwiftUI.Text(image: resizedImage)
     }
 }
 

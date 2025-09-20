@@ -16,6 +16,7 @@ public struct MarkdownView: View {
     let spacing: CGFloat?
 
     @State private var imageManager = ImageManager()
+    @State private var width: Double?
 
     /// Creates a ``MarkdownView`` from Markdown content.
     /// - Parameters:
@@ -43,7 +44,13 @@ public struct MarkdownView: View {
         VStack(alignment: .leading, spacing: spacing) {
             MarkupView(document)
         }
+        .onGeometryChange(for: CGSize.self) { proxy in
+            proxy.size
+        } action: { size in
+            width = size.width
+        }
         .markdownFont(.body)
+        .markdownViewWidth(width)
         // Reset font
         .font(nil)
         .fontDesign(nil)

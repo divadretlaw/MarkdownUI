@@ -18,6 +18,12 @@ extension View {
     ) -> some View {
         environment(\.markdownImageMode, style)
     }
+
+    public func markdownImageScale(
+        _ scales: MarkdownImageScale...
+    ) -> some View {
+        environment(\.markdownImageScale, scales.joined() ?? .default)
+    }
 }
 
 /// Render mode for Markdown inline images
@@ -37,8 +43,25 @@ public enum MarkdownImageMode: Sendable {
     static let `default`: Self = .render
 }
 
+/// Scale mode for Markdown inline images
+public struct MarkdownImageScale: OptionSet, Sendable {
+    public let rawValue: Int
+
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+
+    /// Scale the image based on the display scale
+    public static let display = MarkdownImageScale(rawValue: 1 << 0)
+    /// Scale the image to fit the ``MarkdownView`` width
+    public static let scaledToFit = MarkdownImageScale(rawValue: 1 << 1)
+    /// The default image scale options
+    public static let `default`: MarkdownImageScale = [.display, .scaledToFit]
+}
+
 // MARK: - Inline
 
 extension EnvironmentValues {
     @Entry var markdownImageMode = MarkdownImageMode.default
+    @Entry var markdownImageScale = MarkdownImageScale.default
 }

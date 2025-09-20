@@ -38,13 +38,13 @@ final class ImageManager: Sendable {
         self.requests = [:]
     }
 
-    func image(for url: URL?, scale: CGFloat) -> Result<PlatformImage?, Error> {
+    func image(for url: URL?) -> Result<PlatformImage?, Error> {
         guard let url else { return .failure(.noURL) }
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
 
         if let cache = session.configuration.urlCache, let response = cache.cachedResponse(for: request) {
             let image = PlatformImage(data: response.data)
-            return .success(image?.scalePreservingAspectRatio(scale: scale))
+            return .success(image)
         } else {
             switch requests[url] {
             case .some(.failed):
@@ -75,8 +75,8 @@ final class ImageManager: Sendable {
 // MARK: - Markdown
 
 extension ImageManager {
-    func image(for image: Markdown.Image, scale: CGFloat) -> Result<PlatformImage?, Error> {
-        self.image(for: image.url, scale: scale)
+    func image(for image: Markdown.Image) -> Result<PlatformImage?, Error> {
+        self.image(for: image.url)
     }
 }
 
