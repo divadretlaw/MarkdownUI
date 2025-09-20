@@ -26,16 +26,21 @@ final class ImageManager: Sendable {
     private(set) var requests: [URL: State]
     private let session: URLSession
 
-    init(session: URLSession = .shared) {
-        self.session = session
+    init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        configuration.urlCache = URLCache(
+            memoryCapacity: 100 * 1024 * 1024, // 100 MB
+            diskCapacity: 200 * 1024 * 1024,  // 200 MB
+            diskPath: "markdownUI"
+        )
+        self.session = URLSession(configuration: configuration)
         self.requests = [:]
     }
 
     func image(for url: URL?, scale: CGFloat) -> Result<PlatformImage?, Error> {
-        guard let url else {
-            return .failure(.noURL)
-        }
-        let request = URLRequest(url: url)
+        guard let url else { return .failure(.noURL) }
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
 
         if let cache = session.configuration.urlCache, let response = cache.cachedResponse(for: request) {
             let image = PlatformImage(data: response.data)
@@ -51,6 +56,7 @@ final class ImageManager: Sendable {
             default:
                 let task = Task {
                     do {
+                        // Load the url to so it will be cached
                         let _ = try await session.data(from: url)
                         self.requests[url] = nil
                     } catch {
