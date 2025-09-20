@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Markdown
-import Nuke
 
 struct InlineContainerView: View {
     @Environment(\.displayScale) private var scale
@@ -144,7 +143,7 @@ struct InlineContainerView: View {
         """
         ![](https://dummyimage.com/64x64/0A6FFF/fff&text=A)
 
-        Here's our logo (hover to see the title text):
+        Here's our logo:
 
         Inline-style:
         ![alt text](https://dummyimage.com/64x64/0A6FFF/fff&text=A "Logo Title Text 1")
@@ -159,6 +158,5 @@ struct InlineContainerView: View {
         - ![Invalid response](https://eu.httpbin.org/status/400)
         """
     }
-    .markdownImageMode(.replaceWithSymbol(systemName: "iphone"))
     .padding()
 }

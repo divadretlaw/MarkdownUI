@@ -7,7 +7,6 @@
 
 import Foundation
 import Observation
-import Nuke
 import Markdown
 import OSLog
 
@@ -20,15 +19,15 @@ final class ImageManager: Sendable {
     }
 
     enum State: Equatable {
-        case loading(ImageTask)
+        case loading(Task<Void, Never>)
         case failed
     }
 
     private(set) var requests: [URL: State]
-    private let pipeline: ImagePipeline
+    private let session: URLSession
 
-    init(pipeline: ImagePipeline = .shared) {
-        self.pipeline = pipeline
+    init(session: URLSession = .shared) {
+        self.session = session
         self.requests = [:]
     }
 
@@ -36,12 +35,11 @@ final class ImageManager: Sendable {
         guard let url else {
             return .failure(.noURL)
         }
+        let request = URLRequest(url: url)
 
-        let request = ImageRequest(url: url, processors: [.scale(scale)])
-
-        if let response = pipeline.cache[request] {
-            // Request already cached
-            return .success(response.image)
+        if let cache = session.configuration.urlCache, let response = cache.cachedResponse(for: request) {
+            let image = PlatformImage(data: response.data)
+            return .success(image?.scalePreservingAspectRatio(scale: scale))
         } else {
             switch requests[url] {
             case .some(.failed):
@@ -51,58 +49,20 @@ final class ImageManager: Sendable {
                 // Request already running. Return empty success.
                 return .success(nil)
             default:
-                let task = pipeline.loadImage(with: request) { [weak self] result in
-                    guard let self else { return }
-                    switch result {
-                    case .success:
+                let task = Task {
+                    do {
+                        let _ = try await session.data(from: url)
                         self.requests[url] = nil
-                    case let .failure(error):
+                    } catch {
                         Logger.image.error("\(error.localizedDescription)")
                         self.requests[url] = .failed
+
                     }
                 }
                 requests[url] = .loading(task)
                 return .success(nil)
             }
         }
-    }
-}
-
-// MARK: - Nuke
-
-extension ImageProcessors {
-    fileprivate struct Scale: ImageProcessing {
-        var scale: CGFloat
-
-        func process(_ image: PlatformImage) -> PlatformImage? {
-            image.scalePreservingAspectRatio(scale: scale)
-        }
-
-        func process(_ container: ImageContainer, context: ImageProcessingContext) throws -> ImageContainer {
-            guard container.type != nil else {
-                return container
-            }
-            guard let output = process(container.image) else {
-                throw ImageProcessingError.unknown
-            }
-            var container = container
-            container.image = output
-            return container
-        }
-
-        var identifier: String {
-            "at.davidwalter.markdown/scale?s=\(scale)"
-        }
-
-        var description: String {
-            "Scale(scale: \(scale))"
-        }
-    }
-}
-
-extension ImageProcessing where Self == ImageProcessors.Scale {
-    fileprivate static func scale(_ scale: CGFloat) -> ImageProcessors.Scale {
-        ImageProcessors.Scale(scale: scale)
     }
 }
 

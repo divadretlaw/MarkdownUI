@@ -19,8 +19,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-markdown", from: "0.5.0"),
-        .package(url: "https://github.com/kean/Nuke", from: "12.0.0"),
+        .package(url: "https://github.com/swiftlang/swift-markdown", from: "0.6.0"),
         .package(url: "https://github.com/divadretlaw/highlight.js", from: "1.0.0")
     ],
     targets: [
@@ -28,10 +27,8 @@ let package = Package(
             name: "MarkdownUI",
             dependencies: [
                 .product(name: "Markdown", package: "swift-markdown"),
-                .product(name: "Nuke", package: "Nuke"),
                 .product(name: "HighlightUI", package: "Highlight.js", condition: .when(platforms: [.iOS, .macOS, .tvOS, .visionOS]))
-            ],
-            swiftSettings: [.swiftLanguageMode(.v5)] // Required for Nuke
+            ]
         )
     ]
 )
