@@ -30,7 +30,7 @@ final class ImageManager: Sendable {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         configuration.urlCache = URLCache(
-            memoryCapacity: 100 * 1024 * 1024, // 100 MB
+            memoryCapacity: 100 * 1024 * 1024,  // 100 MB
             diskCapacity: 200 * 1024 * 1024,  // 200 MB
             diskPath: "markdownUI"
         )

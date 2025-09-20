@@ -8,10 +8,6 @@
 import SwiftUI
 
 public struct DefaultBlockQuoteStyle: BlockQuoteStyle {
-    /// Required by Swift 5 language mode
-    nonisolated init() {
-    }
-
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading) {
             configuration.content

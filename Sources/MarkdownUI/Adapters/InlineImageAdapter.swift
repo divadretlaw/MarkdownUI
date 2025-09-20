@@ -21,7 +21,7 @@ extension View {
 }
 
 /// Render mode for Markdown inline images
-public enum MarkdownImageMode {
+public enum MarkdownImageMode: Sendable {
     /// Renders all images
     case render
     /// Replaces all images with it's title, if available, or its alt text

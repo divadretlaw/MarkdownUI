@@ -38,7 +38,7 @@ extension View {
             \.markdownInlineCode, MarkdownInlineCode(foreground: foreground, background: background)
         )
     }
-    
+
     /// Sets the inline code appearance within this view
     ///
     /// - Parameters:

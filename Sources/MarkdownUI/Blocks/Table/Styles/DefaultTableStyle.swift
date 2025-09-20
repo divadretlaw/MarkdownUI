@@ -8,10 +8,6 @@
 import SwiftUI
 
 public struct DefaultTableStyle: TableStyle {
-    /// Required by Swift 5 language mode
-    nonisolated init() {
-    }
-
     public func makeBody(configuration: Configuration) -> some View {
         Grid(horizontalSpacing: 8, verticalSpacing: 0) {
             GridRow {

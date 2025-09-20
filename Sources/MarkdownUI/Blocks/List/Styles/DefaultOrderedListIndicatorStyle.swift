@@ -8,10 +8,6 @@
 import SwiftUI
 
 public struct DefaultOrderedListIndicatorStyle: OrderedListIndicatorStyle {
-    /// Required by Swift 5 language mode
-    nonisolated init() {
-    }
-
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             Text("\(configuration.displayIndex).")

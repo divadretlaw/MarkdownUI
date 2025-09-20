@@ -8,11 +8,7 @@
 import SwiftUI
 
 public struct BarThematicBreakStyle: ThematicBreakStyle {
-    /// Required by Swift 5 language mode
-    nonisolated init() {
-    }
-
-    public func makeBody(configuration _: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         RoundedRectangle(cornerRadius: .infinity)
             .frame(height: 2.5)
     }

@@ -8,10 +8,6 @@
 import SwiftUI
 
 public struct DefaultHeadingStyle: HeadingStyle {
-    /// Required by Swift 5 language mode
-    nonisolated init() {
-    }
-
     public func makeBody(configuration: Configuration) -> some View {
         configuration.content
             .padding(.vertical, 8)
