@@ -16,7 +16,7 @@ public typealias PlatformImage = UIImage
 import AppKit
 
 /// Platform indepdendent image alias. Will be `NSImage`.
-public typealias PlatformImage = UIImage
+public typealias PlatformImage = NSImage
 #else
 #error("Unsupported platform")
 #endif
