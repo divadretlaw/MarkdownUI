@@ -19,8 +19,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-markdown", from: "0.6.0"),
-        .package(url: "https://github.com/divadretlaw/highlight.js", from: "1.0.0")
+        .package(url: "https://github.com/swiftlang/swift-markdown", from: "0.7.3"),
+        .package(url: "https://github.com/divadretlaw/highlight.js", from: "1.0.1")
     ],
     targets: [
         .target(
