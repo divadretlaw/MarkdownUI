@@ -34,9 +34,9 @@ struct InlineContainerView: View {
                 case let value as Markdown.Text:
                     return SwiftUI.Text(verbatim: value.plainText)
                 case let value as Markdown.SoftBreak:
-                    return SwiftUI.Text(verbatim: value.plainText)
+                    return SwiftUI.Text(verbatim: " ")
                 case let value as Markdown.LineBreak:
-                    return SwiftUI.Text(verbatim: value.plainText)
+                    return SwiftUI.Text(verbatim: "\n")
                 case let value as Markdown.InlineCode:
                     return SwiftUI.Text(verbatim: value.code)
                         .monospaced()

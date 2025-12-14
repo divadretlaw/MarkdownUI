@@ -21,7 +21,12 @@ struct MarkupView: View {
             case let value as Markdown.Heading:
                 HeadingView(value)
             case let value as Markdown.Paragraph:
-                InlineContainerView(value)
+                if value.indexInParent > 0 {
+                    InlineContainerView(value)
+                        .padding(.top, 10)
+                } else {
+                    InlineContainerView(value)
+                }
             case let value as Markdown.Strong:
                 InlineContainerView(value).bold()
             case let value as Markdown.Emphasis:
