@@ -9,6 +9,8 @@ import SwiftUI
 import Markdown
 
 struct MarkupView: View {
+    @Environment(\.paragraphSpacing) private var paragraphSpacing
+
     let markup: Markup
 
     init(_ markup: Markup) {
@@ -23,7 +25,7 @@ struct MarkupView: View {
             case let value as Markdown.Paragraph:
                 if value.indexInParent > 0 {
                     InlineContainerView(value)
-                        .padding(.top, 10)
+                        .padding(.top, paragraphSpacing ?? 10)
                 } else {
                     InlineContainerView(value)
                 }
